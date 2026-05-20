@@ -1,39 +1,38 @@
 ---
 name: news-publish
 description: 指定トピックのニュース記事を調査・生成し、HTML 化してこの repo にコミット・push する。Routines から `/news-publish <topic>` の形で呼び出される。
+argument-hint: <topic>
 ---
 
 # news-publish
 
-このリポジトリ (`news`) のニュース発行フローを担う Skill。引数 `<topic>` を受け取り、対応するディレクトリ `<topic>/` の最新号を更新する。
+このリポジトリ (`news`) のニュース発行フローを担う Skill。位置引数 `$ARGUMENTS` をトピックのディレクトリ名として受け取り、`$ARGUMENTS/` の最新号を更新する。
 
 ## 前提
 
 - このリポジトリのルートで動作する
-- 各トピックは `<topic>/` ディレクトリを持ち、少なくとも `prompt.md` が存在する
+- 各トピックは `$ARGUMENTS/` ディレクトリを持ち、少なくとも `$ARGUMENTS/prompt.md` が存在する
 - 共通の `template.html` と `style.css` がルートにある
-- 新規トピックを発行する場合、`<topic>/prompt.md` を事前に手で作る必要がある（Skill 側で新規ディレクトリは作らない）
+- 新規トピックを発行する場合、`$ARGUMENTS/prompt.md` を事前に手で作る必要がある（Skill 側で新規ディレクトリは作らない）
 
 ## 引数
 
-このスキルは 1 つの位置引数を受け取る。Slash command として呼び出されたとき、引数は `$1` で参照できる（`$ARGUMENTS` は全引数を空白区切りで連結した値で、ここでは `$1` と同義）。
+このスキルは 1 つの位置引数を受け取る。
 
-- `$1`: 対応するディレクトリ名（例: `jiji`）
-
-以降の文中で `<topic>` と表記している箇所は `$1` の値を指す。例えば `/news-publish jiji` で呼ばれた場合、`<topic>` は `jiji` となる。
+- `$ARGUMENTS`: 対応するディレクトリ名（例: `/news-publish jiji` で呼ばれた場合 `$ARGUMENTS` は `jiji`）
 
 ## フロー
 
 ### 1. 入力の取得
 
-- `<topic>/prompt.md` を読む。これは記事の調査・整形の指示
-- `<topic>/previous.html` が存在すれば読む。前回号の内容
+- `$ARGUMENTS/prompt.md` を読む。これは記事の調査・整形の指示
+- `$ARGUMENTS/previous.html` が存在すれば読む。前回号の内容
 
 `previous.html` は重複を完全に避けるためではなく、「前回と全く同じ内容の繰り返しを避けて、同じ話題でも進展や新しい角度を優先する」という指針のために使う。前回からの差分や追加情報を意識する。
 
 ### 2. 記事の調査・生成
 
-`prompt.md` の指示に従って情報を集め、記事本文を生成する。Web 検索を活用してよい。
+`$ARGUMENTS/prompt.md` の指示に従って情報を集め、記事本文を生成する。Web 検索を活用してよい。
 
 出力は次の構造を持つ HTML 断片として組み立てる。ルートタグは付けない（template に差し込まれる）。
 
@@ -82,27 +81,27 @@ description: 指定トピックのニュース記事を調査・生成し、HTML
 | プレースホルダー | 置換値 |
 |---|---|
 | `{{TITLE}}` | 例: `時事ニュース — 2026年5月19日` |
-| `{{MASTHEAD_TITLE}}` | `prompt.md` の冒頭セクションに紙名指定があればそれ、なければ `<topic>` |
+| `{{MASTHEAD_TITLE}}` | `$ARGUMENTS/prompt.md` の冒頭セクションに紙名指定があればそれ、なければ `$ARGUMENTS` |
 | `{{DATE}}` | 発行日（例: `2026年5月19日（火）`） |
-| `{{ISSUE_LABEL}}` | 補助情報（例: `過去24時間`）。`prompt.md` の指定を優先 |
+| `{{ISSUE_LABEL}}` | 補助情報（例: `過去24時間`）。`$ARGUMENTS/prompt.md` の指定を優先 |
 | `{{BODY_HTML}}` | ステップ 2 で生成した HTML 断片 |
 | `{{YEAR}}` | 西暦（例: `2026`） |
 
 ### 4. ファイル書き出し
 
-- `<topic>/index.html` を上書き保存
-- `<topic>/previous.html` に同じ内容を上書き保存
+- `$ARGUMENTS/index.html` を上書き保存
+- `$ARGUMENTS/previous.html` に同じ内容を上書き保存
 
 ### 5. ハブの更新
 
-ルートの `index.html` を読み、`data-topic="<topic>"` を持つ `.hub-list__item` 内の `.hub-list__updated` テキストを `YYYY-MM-DD 更新` に置換する。
+ルートの `index.html` を読み、`data-topic="$ARGUMENTS"` を持つ `.hub-list__item` 内の `.hub-list__updated` テキストを `YYYY-MM-DD 更新` に置換する。
 
-該当行が存在しない場合は、新たに次の形の要素を `<ul class="hub-list">` の末尾に追加する。
+該当行が存在しない場合は、新たに次の形の要素を `<ul class="hub-list">` の末尾に追加する（`$ARGUMENTS` の値を埋めること）。
 
 ```html
-<li class="hub-list__item" data-topic="<topic>">
-  <a class="hub-list__link" href="<topic>/">
-    <span class="hub-list__name"><紙名></span>
+<li class="hub-list__item" data-topic="$ARGUMENTS">
+  <a class="hub-list__link" href="$ARGUMENTS/">
+    <span class="hub-list__name">紙名</span>
     <span class="hub-list__updated">YYYY-MM-DD 更新</span>
   </a>
 </li>
@@ -110,7 +109,7 @@ description: 指定トピックのニュース記事を調査・生成し、HTML
 
 ### 6. commit & push
 
-`git add .` の後、コミットメッセージは `[<topic>] YYYY-MM-DD 更新` の形にして `git commit` し、`git push origin main` する。コミットメッセージはメール通知の件名にも使われる。
+`git add .` の後、コミットメッセージは `[$ARGUMENTS] YYYY-MM-DD 更新` の形（`$ARGUMENTS` の値を埋める）にして `git commit` し、`git push origin main` する。コミットメッセージは通知タイトルにも使われる。
 
 ## 通知
 
@@ -118,6 +117,6 @@ description: 指定トピックのニュース記事を調査・生成し、HTML
 
 ## エラーハンドリング
 
-- `<topic>/prompt.md` が存在しない場合は、その旨を報告して停止する（新規トピックを Skill 側で勝手に作らない）
+- `$ARGUMENTS/prompt.md` が存在しない場合は、その旨を報告して停止する（新規トピックを Skill 側で勝手に作らない）
 - `template.html` または `style.css` が見つからない場合は停止
 - `git push` に失敗した場合は、ローカルのコミット状態を残したまま報告する

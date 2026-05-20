@@ -8,21 +8,19 @@ on:
       - '**/previous.html'
 
 jobs:
-  mail:
+  notify:
     runs-on: ubuntu-latest
     steps:
-      - name: Send mail
-        uses: dawidd6/action-send-mail@v3
-        with:
-          server_address: smtp.gmail.com
-          server_port: 465
-          secure: true
-          username: ${{ secrets.MAIL_USERNAME }}
-          password: ${{ secrets.MAIL_PASSWORD }}
-          to: ${{ secrets.MAIL_TO }}
-          from: news-bot <${{ secrets.MAIL_USERNAME }}>
-          subject: "[news] ${{ github.event.head_commit.message }}"
-          body: |
-            ${{ github.event.head_commit.message }}
-
-            最新号: https://${{ github.repository_owner }}.github.io/news/
+      - name: Send ntfy notification
+        env:
+          MSG: ${{ github.event.head_commit.message }}
+          OWNER: ${{ github.repository_owner }}
+          TOPIC: ${{ secrets.NTFY_TOPIC }}
+        run: |
+          SUBJECT=$(echo "$MSG" | head -n 1)
+          curl -X POST \
+            -H "Title: $SUBJECT" \
+            -H "Click: https://${OWNER}.github.io/news/" \
+            -H "Tags: newspaper" \
+            -d "更新がありました" \
+            "https://ntfy.sh/${TOPIC}"

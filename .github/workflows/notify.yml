@@ -18,9 +18,15 @@ jobs:
           TOPIC: ${{ secrets.NTFY_TOPIC }}
         run: |
           SUBJECT=$(echo "$MSG" | head -n 1)
+          TOPIC_NAME=$(echo "$SUBJECT" | sed -n 's/^\[\([^]]*\)\].*/\1/p')
+          if [ -n "$TOPIC_NAME" ] && [ "$TOPIC_NAME" != "test" ]; then
+            CLICK_URL="https://${OWNER}.github.io/news/${TOPIC_NAME}/"
+          else
+            CLICK_URL="https://${OWNER}.github.io/news/"
+          fi
           curl -X POST \
             -H "Title: $SUBJECT" \
-            -H "Click: https://${OWNER}.github.io/news/" \
+            -H "Click: $CLICK_URL" \
             -H "Tags: newspaper" \
             -d "更新がありました" \
             "https://ntfy.sh/${TOPIC}"

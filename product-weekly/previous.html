@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>プロダクトウォッチ — 2026年6月11日</title>
+<title>プロダクトウォッチ — 2026年6月18日</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@400;500;700&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
     <header class="masthead">
       <h1 class="masthead__title"><a href="../">プロダクトウォッチ</a></h1>
       <div class="masthead__meta">
-        <span>2026年6月11日（水）</span>
+        <span>2026年6月18日（木）</span>
         <span>過去1週間</span>
       </div>
     </header>
@@ -22,106 +22,117 @@
     <main class="content">
       <section class="summary">
         <h2 class="summary__title">まとめ</h2>
-        <p>今週最大のニュースは Claude Fable 5（Mythos-class）の一般公開（6/9）。Claude Code v2.1.170 からすぐに利用可能になり、Cognition の FrontierCode eval で #1 を獲得した。Claude Code 自体は --safe-mode フラグ追加（v2.1.169）、Dynamic Workflows の GA 化、Apple Foundation Models 対応と週を通じてアップデートが続いた。Anthropic は内部データとして「エンジニアのコード生産性が 2021–2025 比で 8 倍」を公開し、再帰的自己改善への布石として注目を集めた。他プロダクトでは Devin が企業向け $10M 生産性保証と FrontierCode eval を投入、NotebookLM が Gemini 3.5 搭載の大型アップグレードを発表した。</p>
+        <p>今週の最大の出来事は、先週ローンチしたばかりの Claude Fable 5 / Mythos 5 が米政府の輸出管理指令を受けて全面停止になったこと（6/13）。Claude Code を含む全プロダクトの新規セッションは Opus 4.8 など他モデルにフォールバックする運用に戻り、Cognition も Devin から Fable 5 を外した。プロダクト面では Claude Code が Claude Design との双方向同期（<code>/design-sync</code>）を投入し、Managed Agents がスケジュール実行・Vault 認証情報・各社サンドボックス対応で本番投入に近づいた。Anthropic は「Claude Code が実際に何に使われているか」を追う経済インデックスを公開。Claude Code 本体は 2.1.176〜2.1.181 を週内で連続リリースした。他陣営では OpenAI Codex がレートリミットのリセット貯蓄・Computer Use・プラグインマーケットを、xAI が Grok Build のプラグインマーケットを出している。</p>
       </section>
 
       <section class="topic">
         <h2 class="topic__title">Claude Code</h2>
 
         <article class="article">
-          <h3 class="article__headline">Claude Fable 5 が統合され、チームの働き方が変わった（v2.1.170）</h3>
+          <h3 class="article__headline">Fable 5 が全面停止——コーディングエージェントが回すモデルが Opus 4.8 に逆戻り</h3>
           <div class="article__body">
-            <p>6 月 9 日、Claude Code v2.1.170 がリリースされ、Fable 5 が利用可能になった。CLI 上では <code>/model claude-fable-5</code> で切り替えられる。Fable 5 はコンテキストウィンドウ 1M トークン、最大 128k 出力トークン対応のモデルで、ソフトウェアエンジニアリング・科学研究・ビジョンで最高水準のベンチマーク結果を示している。</p>
-            <p>Claude Devs のアカウントは「チームの働き方が変わった。以前は Claude が正しく作業したかを確認していたが、今は正しい仕事をしているかを確認するようになった」と発信。バグフィックスは v2.1.170 で「VS Code 統合ターミナル等から起動したセッションでトランスクリプトが保存されない問題」を修正している。</p>
-            <p>なおサイバーセキュリティ・生物・化学・蒸留関連のリクエストには安全分類器が働き、Claude Opus 4.8 にフォールバックする仕組みが入っている（発生率は平均セッションの 5% 未満）。LLM 開発領域でのフラグリクエストも同様に Opus 4.8 へ切り替わるよう、今週中に順次ロールアウト中。</p>
+            <p>先週「今週最大のニュース」として取り上げた Claude Fable 5 が、わずか数日で使えなくなった。6 月 13 日、Anthropic は「米政府が国家安全保障上の権限を根拠に、Fable 5 および Mythos 5 への外国籍ユーザー（米国内外を問わず）によるアクセスをすべて停止する輸出管理指令を出した」と公表。これを受けて Claude Devs は「米政府の指令の結果として、全ユーザー向けに Claude Fable 5 へのアクセスを停止する。他の Claude モデルは引き続き利用できる」と告知した。</p>
+            <p>プロダクト視点で重要なのは、これが単なるモデルの出し入れではなく、自分が日々回しているエージェントの中身が変わるという点だ。Claude のプロダクト全体で、新規セッションは選択中のモデル（実質 Opus 4.8 など）で走るようになった。Anthropic は影響緩和として 5 時間・週間のレートリミットを全ユーザーでリセットしている。先週 Fable 5 を前提に組まれていたワークフローは、いったん Opus 4.8 ベースで考え直す必要がある。</p>
+            <p>影響は Anthropic 外にも及んだ。Cognition は「Anthropic の発表と米政府指令を受け、Devin など自社プロダクトから Claude Fable 5 を外す。Opus 4.8 と GPT-5.5 を含む他モデルは引き続き利用可能」と即日アナウンス。Anthropic 自身が 6 月 14 日に SF で開催した Claude Build Day も、当初予定の Fable 5 ではなく Opus 4.8 上で実施された。</p>
           </div>
           <ul class="article__sources">
-            <li><a href="https://x.com/ClaudeDevs/status/2064399512664526853">@ClaudeDevs: Fable 5 changed how we work on the Claude Code team</a></li>
-            <li><a href="https://x.com/ClaudeDevs/status/2064394919549210774">@ClaudeDevs: Claude Fable 5 is here — getting started in Claude Code</a></li>
-            <li><a href="https://www.anthropic.com/news/claude-fable-5-mythos-5">Anthropic: Claude Fable 5 and Claude Mythos 5</a></li>
-            <li><a href="https://www.claudeupdates.dev/version/2.1.170">Claude Code v2.1.170 Release Notes</a></li>
+            <li><a href="https://x.com/AnthropicAI/status/2065597531644743999">@AnthropicAI: 米政府の輸出管理指令により Fable 5 / Mythos 5 へのアクセスを停止</a></li>
+            <li><a href="https://x.com/ClaudeDevs/status/2065597942602531163">@ClaudeDevs: 全ユーザー向けに Claude Fable 5 へのアクセスを停止</a></li>
+            <li><a href="https://x.com/ClaudeDevs/status/2065621176735646006">@ClaudeDevs: 全ユーザーの 5 時間・週間レートリミットをリセット</a></li>
+            <li><a href="https://x.com/cognition/status/2065609115939062197">@cognition: Cognition 製品から Claude Fable 5 を外す</a></li>
+            <li><a href="https://x.com/ClaudeDevs/status/2065647770468487600">@ClaudeDevs: Build Day は Opus 4.8 上で実施</a></li>
           </ul>
         </article>
 
         <article class="article">
-          <h3 class="article__headline">Dynamic Workflows が GA——数百並列サブエージェントでコードベース全体マイグレーションが対象に</h3>
+          <h3 class="article__headline">Claude Design と Claude Code が双方向同期——<code>/design-sync</code> でデザインシステムを行き来</h3>
           <div class="article__body">
-            <p>Claude Code における Dynamic Workflows が正式 GA になった。Claude が 10〜100 以上の並列サブエージェントを自律的にオーケストレーションし、数十万行規模のコードベースマイグレーションをキックオフからマージまで実行する。既存のテストスイートが品質バーとして使われる。Code with Claude Tokyo（6/11）でも発表された主要機能のひとつ。</p>
+            <p>6 月 17 日、Claude Design と Claude Code が双方向に同期するようになった。Claude Code 側で <code>/design-sync</code> を実行すると、自分のデザインシステムをリポジトリに取り込み、実際のコンポーネントに対してビルドできる。逆に Claude Code で作ったものを Claude Design に押し戻し、キャンバス上で編集を続けることもできる。デザインの受け渡しが「画像を見ながら作り直す」ではなく、実コンポーネント単位で往復する形になった。</p>
+            <p>Claude Design 自体もこのタイミングで強化された。リポジトリ・デザインファイル・コードベースからデザインシステムを取り込み、自分の実コンポーネントでビルドし、出力を見せる前にデザインシステムへの準拠を自己チェックする。キャンバス上でドラッグ・リサイズ・整列ができる新レイアウト操作や、PDF・PowerPoint へのエクスポートも加わった。Claude Design は全有料プラン（web・デスクトップ）でベータ提供されている。</p>
           </div>
           <ul class="article__sources">
-            <li><a href="https://claude.com/blog/introducing-dynamic-workflows-in-claude-code">Claude Blog: Introducing dynamic workflows in Claude Code</a></li>
-            <li><a href="https://x.com/claudeai/status/2064741174317924421">@claudeai: dynamic workflows in Claude Code are generally available</a></li>
+            <li><a href="https://x.com/ClaudeDevs/status/2067391951725629941">@ClaudeDevs: Claude Code and Claude Design now sync both ways（/design-sync）</a></li>
+            <li><a href="https://x.com/claudeai/status/2067325887909884315">@claudeai: New in Claude Design — syncs with Claude Code</a></li>
+            <li><a href="https://x.com/claudeai/status/2067325894268428560">@claudeai: Claude Design is in beta on all paid plans</a></li>
           </ul>
         </article>
 
         <article class="article">
-          <h3 class="article__headline">v2.1.169: --safe-mode と /cd コマンドが追加</h3>
+          <h3 class="article__headline">Managed Agents が本番運用へ——スケジュール実行・Vault 認証情報・各社サンドボックス対応</h3>
           <div class="article__body">
-            <p>6 月 8 日リリースの v2.1.169 では <code>--safe-mode</code> フラグ（環境変数 <code>CLAUDE_CODE_SAFE_MODE</code> も可）が追加された。CLAUDE.md、プラグイン、スキル、フック、MCP サーバーをすべて無効にした状態で起動するデバッグ用モード。カスタマイズが絡んだ問題の切り分けに使える。あわせて <code>/cd</code> コマンドも追加された（30 件の変更を含む大型リリース）。</p>
-            <p>バグ修正では JetBrains IDE のフリッカー、WezTerm/Ghostty での Shift+非 ASCII 文字が入力できない問題、Windows での PowerShell コマンド検証ハング、macOS でのゾンビプロセス CPU 100% 消費をそれぞれ修正。</p>
+            <p>Claude Managed Agents が、実運用に必要なピースを相次いで埋めた。6 月 11 日にはスケジュール実行（タスクを定期実行）と、Vault の認証情報を環境変数として CLI に渡す環境変数クレデンシャルが追加された。Claude 自身はシークレットにアクセスせず、認証情報は安全に注入される設計で、環境変数で認証する CLI・SDK・直接 API 呼び出しをエージェントから安全に使えるようになる。</p>
+            <p>翌 12 日には、自分の管理下のサンドボックス（自前インフラや任意プロバイダ）でエージェントを動かすためのガイドが拡充され、Blaxel・E2B・Google Cloud・Namespace・Superserve に対応した。さらに 6 月 16 日には Applied AI チームが、認証情報・サンドボックス化・可観測性といった「エージェントを本番に乗せるときに必ずぶつかる課題」とその解き方をまとめたブログを公開している。先週ベータとして発表された要素が、実際に使える形へ整いつつある。</p>
           </div>
           <ul class="article__sources">
-            <li><a href="https://x.com/ClaudeCodeLog/status/2064108721278521448">@ClaudeCodeLog: Claude Code 2.1.169 has been released</a></li>
+            <li><a href="https://x.com/ClaudeDevs/status/2065080005328249086">@ClaudeDevs: Scheduled deployments と環境変数クレデンシャルを追加</a></li>
+            <li><a href="https://x.com/ClaudeDevs/status/2065494480837583297">@ClaudeDevs: Blaxel・E2B・Google Cloud・Namespace・Superserve 向けサンドボックスガイド</a></li>
+            <li><a href="https://x.com/ClaudeDevs/status/2066926619714007115">@ClaudeDevs: Applied AI チームによる本番投入のブログ</a></li>
+          </ul>
+        </article>
+
+        <article class="article">
+          <h3 class="article__headline">Anthropic Economic Index——「Claude Code が実際に何に使われているか」をデータで公開</h3>
+          <div class="article__body">
+            <p>6 月 16 日、Anthropic が Claude Code の利用実態を追う経済インデックスのフレームワークを公開した。プライバシー保護分析で 2025 年 10 月〜2026 年 4 月の 40 万セッションを分類した結果、半分以上がコードの作成・修正、約 5 件に 1 件が OS・インフラ操作だった。タスクの金銭的価値はフリーランス市場での相場に換算して期間中に上昇しており、Claude Code 上の平均タスクが「より価値の高い仕事」へシフトしていることが示された。</p>
+            <p>使い手の専門性についても示唆がある。質問の仕方や語彙から判定したドメインエキスパートは成功率が高い一方、中級者と専門家の差は意外に小さく、「ある程度の習熟があれば十分」という結果になった。検証可能な完了証跡（コミットされたコードなど）を必須とする最も厳しい成功基準でも、各職種はソフトウェアエンジニアリングと 7 ポイント以内に収まっていた。プロダクトを「誰がどんな仕事に使っているか」を測る土台として、今後 Anthropic Economic Index に取り込まれていく。</p>
+          </div>
+          <ul class="article__sources">
+            <li><a href="https://x.com/AnthropicAI/status/2066969532380721386">@AnthropicAI: Claude Code をスケールで追う経済リサーチのフレームワーク</a></li>
+            <li><a href="https://x.com/AnthropicAI/status/2066969536423985295">@AnthropicAI: 平均タスクの金銭的価値が上昇</a></li>
+            <li><a href="https://x.com/AnthropicAI/status/2066969538193920307">@AnthropicAI: 検証可能な成功率は各職種がソフトウェアエンジニアと 7pt 以内</a></li>
+          </ul>
+        </article>
+
+        <article class="article">
+          <h3 class="article__headline">2.1.176〜2.1.181 を連続リリース——ripgrep 推奨・粒度の細かい権限ルール・<code>/config key=value</code></h3>
+          <div class="article__body">
+            <p>Claude Code 本体は今週も高頻度でリリースが続いた。注目したい変更を拾うと、Grep が ripgrep ベースを推奨するようになり、コード検索がより速く一貫した挙動に（2.1.176／2.1.178）。権限ルールが <code>Tool(param:value)</code> 形式とワイルドカード <code>*</code> を受け付けるようになり、特定の引数値だけをブロックする細かい制御ができるようになった（2.1.178）。また <code>availableModels</code> がブロック済みモデルへ迂回する環境変数エイリアスを弾くようになっており、これは今回の Fable 5 停止のような「使えるモデルの差し替え」とも噛み合う変更だ。</p>
+            <p>安定性の修正も入っている。ストリーミングが途中で切れた際に部分応答を保持し、スピナーが "running tool" のまま固まる問題を解消（2.1.179）。サンドボックスの <code>denyRead</code>/<code>allowRead</code> グロブ処理がパスを過剰に膨らませないよう改善された。さらに 2.1.181 では <code>/config key=value</code> で任意設定を直接書き換えられるようになり、39 件の CLI 変更が入った大型リリースとなっている。リリースの一次情報は GitHub Releases（<code>anthropics/claude-code</code>）を参照したい。</p>
+          </div>
+          <ul class="article__sources">
+            <li><a href="https://x.com/ClaudeCodeLog/status/2066638360014102825">@ClaudeCodeLog: 2.1.178 — ripgrep 推奨・Tool(param:value) 権限ルール</a></li>
+            <li><a href="https://x.com/ClaudeCodeLog/status/2066982474467434829">@ClaudeCodeLog: 2.1.179 — 部分応答の保持・サンドボックス glob 改善</a></li>
+            <li><a href="https://x.com/ClaudeCodeLog/status/2067372583733916098">@ClaudeCodeLog: 2.1.181 — /config key=value、39 件の CLI 変更</a></li>
             <li><a href="https://github.com/anthropics/claude-code/releases">GitHub Releases: anthropics/claude-code</a></li>
           </ul>
         </article>
 
         <article class="article">
-          <h3 class="article__headline">Apple Foundation Models フレームワークから Claude を呼べるように</h3>
+          <h3 class="article__headline">Claude Build Day（SF）——300 人が 1 日で作ったものたち</h3>
           <div class="article__body">
-            <p>Apple の Foundation Models フレームワーク向けに、Claude を呼び出す Swift パッケージが公開された。iOS 27・iPadOS 27・macOS 27・visionOS 27・watchOS 27 に対応し、複雑な多段推論やコード生成・長文コンテキスト処理を Apple デバイス上のアプリから呼び出せる。</p>
+            <p>6 月 14 日に SF で開催された Claude Build Day には 300 人のビルダーが集まり、1 日で動くものを作り上げた。優勝は Tekton（唐代建築を史料に紐づけて 3D 再構成するプラットフォーム）、2 位は Sim Francisco（国勢調査をシードに SF の人口をデジタルツイン化し、合成都市を数秒でポーリングして実世界の結果を予測）、3 位は Custom Universe（スマホ 1 枚の写真からフォトリアルで編集可能な 3D シーンを生成）。前述のとおり当日は Fable 5 が使えず Opus 4.8 上での開催となったが、それでも 1 日でこの完成度のものが出てくる、という事例として参考になる。</p>
           </div>
           <ul class="article__sources">
-            <li><a href="https://claude.com/blog/claude-for-foundation-models">Claude Blog: Claude support for Apple's Foundation Models framework</a></li>
-            <li><a href="https://x.com/ClaudeDevs/status/2064756984617021807">@ClaudeDevs: Foundation Models support for Claude</a></li>
-          </ul>
-        </article>
-
-        <article class="article">
-          <h3 class="article__headline">Connector 向け Observability Dashboard と Managed Agents のスケジュール実行</h3>
-          <div class="article__body">
-            <p>MCP 経由で Claude にツールやデータを繋げるサードパーティ開発者向けに、Connector の Observability Dashboard が追加された。また Code with Claude Tokyo（6/11）では Claude Managed Agents においてスケジュール実行と Vault の環境変数管理がパブリックベータとして発表された。</p>
-          </div>
-          <ul class="article__sources">
-            <li><a href="https://x.com/ClaudeDevs/status/2064072801062121906">@ClaudeDevs: Observability dashboard for connector developers</a></li>
-            <li><a href="https://x.com/claudeai/status/2064741174317924421">@claudeai: scheduled deployments and env variables in vaults — public beta</a></li>
-          </ul>
-        </article>
-
-        <article class="article">
-          <h3 class="article__headline">Claude Code GA 1 周年——「最初のデモの Slack リアクションは 2 個だった」</h3>
-          <div class="article__body">
-            <p>Claude Code の一般公開からちょうど 1 年が経過した。6 月 8 日に公開された @bcherny と @_catwu の対談では、verification のベストプラクティス・auto mode を作った理由・routines と loops の設計思想・今後の展望が語られた。「最初のデモが得た Slack リアクションは 2 個だった」というエピソードが注目を集めた。</p>
-          </div>
-          <ul class="article__sources">
-            <li><a href="https://x.com/ClaudeDevs/status/2064032814392352816">@ClaudeDevs: Claude Code's first demo got two Slack reactions</a></li>
+            <li><a href="https://x.com/ClaudeDevs/status/2067298098553254211">@ClaudeDevs: Claude Build Day の受賞デモまとめ</a></li>
+            <li><a href="https://x.com/ClaudeDevs/status/2067298100662980608">@ClaudeDevs: 1st Place — Tekton</a></li>
           </ul>
         </article>
       </section>
 
       <section class="topic">
-        <h2 class="topic__title">Anthropic 周辺の動き</h2>
+        <h2 class="topic__title">OpenAI Codex の動き</h2>
 
         <article class="article">
-          <h3 class="article__headline">「エンジニアのコード生産性が 8 倍に」——自己改善への布石として反響</h3>
+          <h3 class="article__headline">レートリミットのリセットを「貯めて後で使う」——Computer Use・プラグインマーケットも</h3>
           <div class="article__body">
-            <p>6 月 4 日、Anthropic が内部データを公開。同社エンジニアは 2021〜2025 年比で四半期あたり 8 倍のコード量を出荷しており、難易度の高いオープンエンドな問題での Claude の成功率は 6 か月で 26% → 76% に跳ね上がった（50 pt 増）。Claude が AI 開発自体を加速させる「再帰的自己改善」の可能性がある経路だとして、25 万インプレッションを超える注目を集めた。</p>
-            <p>Dario Amodei は 6 月 10 日に新論文「Policy on the AI Exponential」を公開。「AI の進化速度は政策立案プロセスが想定していたより遥かに速い」として、業界と政策立案者への提言を行った。</p>
+            <p>Codex まわりは機能追加が活発だった。まず 6 月 12 日、レートリミットのリセットを自分の好きなタイミングで使えるよう貯蓄できる機能が Go/Plus/Pro/Business 向けにロールアウト（最初の 1 回は無料）。「みんなが自分のタイミングでリセットを使いたがるから出した」という告知文が国内エンジニアにも面白がられた。2 週間限定で、友人を招待すると双方にリセットが貯まる紹介キャンペーンも走っている。レートリミットの硬直性に対するユーザーの不満に、運用面で手当てした形だ。</p>
+            <p>機能面では Codex アプリに macOS / Windows での Computer Use、バックグラウンドのブラウザ操作向け Chrome 拡張、ワークフローや技術スタック・規約を覚える Memories が追加された。Codex CLI も 0.140.0 で <code>/usage</code>（日次・週次・累計のトークン統計）、Claude Code からの <code>/import</code>（設定・config・チャットの取り込み）、<code>@</code> によるファイル・プラグイン・スキルの統合メンションを追加。0.141.0 ではリモート実行向けの E2E 暗号化 Noise リレーとプラグインマーケットプレイスが入った。Claude Code からの移行導線（<code>/import</code>）を公式に用意してきた点は、乗り換えを狙う動きとして注目しておきたい。</p>
           </div>
           <ul class="article__sources">
-            <li><a href="https://x.com/AnthropicAI/status/2062568862479208923">@AnthropicAI: AI is accelerating AI development</a></li>
-            <li><a href="https://x.com/DarioAmodei/status/2064781775247950326">@DarioAmodei: Policy on the AI Exponential</a></li>
+            <li><a href="https://x.com/OpenAI/status/2065225362544726371">@OpenAI: レートリミットのリセットを貯めて後で使えるように</a></li>
+            <li><a href="https://x.com/Codex_Changelog/status/2066922537162784838">@Codex_Changelog: Codex アプリに Computer Use・Chrome 拡張・Memories</a></li>
+            <li><a href="https://x.com/Codex_Changelog/status/2066653211348406492">@Codex_Changelog: Codex CLI 0.140.0（/usage・Claude Code からの /import）</a></li>
+            <li><a href="https://x.com/Codex_Changelog/status/2067547762762096975">@Codex_Changelog: Codex CLI 0.141.0（暗号化リレー・プラグインマーケット）</a></li>
           </ul>
         </article>
 
         <article class="article">
-          <h3 class="article__headline">Claude Cowork の利用制限を 1 か月間 2 倍に</h3>
+          <h3 class="article__headline">OpenAI が Ona を買収——「ラップトップを閉じても走り続ける」実行基盤を Codex に</h3>
           <div class="article__body">
-            <p>6 月 5 日、claude.ai の Cowork において利用制限が 1 か月間 2 倍に引き上げられた。Fable 5 リリース前後に合わせ、全ユーザーの 5 時間・週間レート制限もリセットされている。</p>
+            <p>6 月 11 日、OpenAI が Ona（@ona_hq）の買収合意を発表した。同社のセキュアなクラウド実行技術により、Codex はラップトップを閉じていても長時間タスクを継続でき、より多くの組織が本番でエージェントを安全に運用できるようになるとしている。Codex の「アプリでの Computer Use」「暗号化リモートリレー」といった今週の追加と合わせて、ローカル端末に縛られないクラウド実行へ寄せていく方向性がはっきり見える。</p>
           </div>
           <ul class="article__sources">
-            <li><a href="https://x.com/claudeai/status/2063018337567670285">@claudeai: Doubled usage limits in Claude Cowork for the next month</a></li>
-            <li><a href="https://x.com/ClaudeDevs/status/2064464557951852643">@ClaudeDevs: Reset 5-hour and weekly rate limits for all users</a></li>
+            <li><a href="https://x.com/OpenAINewsroom/status/2065088002335158753">@OpenAINewsroom: Ona の買収合意——セキュアなクラウド実行技術</a></li>
           </ul>
         </article>
       </section>
@@ -130,57 +141,36 @@
         <h2 class="topic__title">その他プロダクトの動向</h2>
 
         <article class="article">
-          <h3 class="article__headline">Devin: FrontierCode eval で「マージ可能かどうか」を基準に、$10M 生産性保証も</h3>
+          <h3 class="article__headline">Grok Build がプラグインマーケットを開設——ターミナルから Vercel・Sentry・MongoDB 等を直叩き</h3>
           <div class="article__body">
-            <p>Cognition が 6 月 8 日に FrontierCode を発表。既存の eval は「動くかどうか」を見るが、FrontierCode は正確性・テスト品質・スコープ規律・コードスタイル・リポジトリ標準準拠と、実際にマージできる品質かどうかを評価する。36 の主要 OSS リポジトリのメンテナと協力して設計されており、タスクあたり 40 時間以上の制作コストがかかっている。Claude Fable 5 は FrontierCode で現時点の #1 を獲得した。</p>
-            <p>あわせて AI Productivity Guarantee も発表。Devin が支払額に見合う生産性を提供できなければ Cognition が最大 $10M までカバーするという企業向け SLA。タスクごとに AI 推定エンジニア工数を算出・検証する仕組みが裏側にある。</p>
+            <p>xAI のコーディングエージェント Grok Build が、6 月 11 日にプラグインマーケットプレイスをベータ公開した。ターミナルから Vercel・Sentry・MongoDB・Cloudflare・Chrome DevTools のプラグインを使え、たとえば Sentry プラグインを入れればエージェントにエラーの発見・修正、スタックトレース解析、アラートのトリアージを頼める。Vercel プラグインなら本番デプロイやサンドボックス立ち上げ、Shadcn でのアプリ構築まで一プロンプトで通る。コーディングエージェント各社が「プラグイン／拡張マーケット」を競って整備する流れに、Grok も乗ってきた。</p>
+            <p>周辺では、SuperGrok / X Premium のサブスクで Warp 内から Grok Build モデルを使えるようになり（6/15）、Grok 4.3 が Amazon Bedrock 経由で利用可能に（6/17）。エージェント本体を各開発環境・クラウドに載せていく動きが続いている。</p>
           </div>
           <ul class="article__sources">
-            <li><a href="https://cognition.ai/blog/frontier-code">Cognition: Introducing FrontierCode</a></li>
-            <li><a href="https://cognition.ai/blog/ai-guarantee">Cognition: AI Productivity Guarantee</a></li>
-            <li><a href="https://x.com/cognition/status/2064398549073453266">@cognition: Claude Fable 5 in Devin — #1 on FrontierCode</a></li>
+            <li><a href="https://x.com/xai/status/2065099299541893577">@xai: Grok Build Plugin Marketplace がベータ公開</a></li>
+            <li><a href="https://x.com/xai/status/2065168019891073260">@xai: Sentry プラグインでエラーの発見・修正・トリアージ</a></li>
+            <li><a href="https://x.com/xai/status/2066625790704521699">@xai: Warp 内から Grok Build モデルを利用可能に</a></li>
+            <li><a href="https://x.com/xai/status/2067263498359624012">@xai: Grok 4.3 が Amazon Bedrock で利用可能に</a></li>
           </ul>
         </article>
 
         <article class="article">
-          <h3 class="article__headline">NotebookLM が大型アップグレード——Gemini 3.5 + Antigravity でアジェンティックに</h3>
+          <h3 class="article__headline">NotebookLM の強化版が AI Ultra 向けに 100% 展開</h3>
           <div class="article__body">
-            <p>6 月 8 日、NotebookLM が大型アップグレードを発表。Gemini 3.5 と Antigravity で動作し、複雑なマルチステップ調査をチャット内でエージェント的に実行できるようになった。出力フォーマットも拡充され、ソース帰属（Source Attribution）機能も新たに追加。どのプロンプト＋ソースの組み合わせでアーティファクトが作られたかを確認・再現できる。Google AI Ultra および Workspace の AI 拡張アクセス顧客から順次展開中。</p>
+            <p>先週「Gemini 3.5 + Antigravity でアジェンティックに」と紹介した NotebookLM の強化版が、6 月 16 日に Google AI Ultra 加入者へグローバルで 100% ロールアウト完了した。チャート・画像・スプレッドシートなど出力フォーマットが広がっており、段階展開から「全 Ultra ユーザーが使える」状態になった点が今週の進展。リサーチ用途のプロダクトとして、一段使える範囲が広がった。</p>
           </div>
           <ul class="article__sources">
-            <li><a href="https://x.com/NotebookLM/status/2064016460964585549">@NotebookLM: Introducing a more powerful NotebookLM</a></li>
-            <li><a href="https://x.com/NotebookLM/status/2062653124326863077">@NotebookLM: Source Attribution launch</a></li>
+            <li><a href="https://x.com/NotebookLM/status/2066981609258229764">@NotebookLM: 強化版 NotebookLM が AI Ultra へ 100% ロールアウト</a></li>
           </ul>
         </article>
 
         <article class="article">
-          <h3 class="article__headline">ChatGPT のメモリが「常時サマリー型」に進化</h3>
+          <h3 class="article__headline">Notion が GLM 5.2 を搭載——オープンウェイトモデルを長時間タスク用に</h3>
           <div class="article__body">
-            <p>6 月 4 日、OpenAI が ChatGPT のメモリシステムをリニューアル。従来の「保存された記憶」だけでなく、会話間で重要な文脈を自動的に保持・更新する新アーキテクチャに移行した。ユーザーはメモリサマリーで保持内容を確認・削除でき、旧来の saved memories に戻すことも可能。段階的にロールアウト中。</p>
+            <p>6 月 16 日、Notion が新しいオープンウェイトモデル GLM 5.2 を利用可能にした。長時間（long-horizon）タスク向けに作られたモデルで、Baseten 経由で配信される。汎用ワークスペース系プロダクトが、用途に応じてオープンウェイトモデルを差し込んでくる事例として押さえておきたい。</p>
           </div>
           <ul class="article__sources">
-            <li><a href="https://x.com/OpenAI/status/2062567556524003631">@OpenAI: New more capable memory system in ChatGPT</a></li>
-          </ul>
-        </article>
-
-        <article class="article">
-          <h3 class="article__headline">Gemini Live で画像作成・編集が可能に、Canvas もリリース</h3>
-          <div class="article__body">
-            <p>6 月 5 日、Gemini Live でリアルタイム画像作成・編集が解禁。部屋のインテリア検討やミームのその場生成などが会話中にできるようになった。また Gemini 3.5 Flash を使ったコードワンショット生成デモ（Canvas）が話題に。参照画像からライティングを解析しインタラクティブな 3D ビジュアライザを 1 発で生成した動画が 480 万インプレッションを超えた。macOS アプリでは両 Command ⌘ キー同時押しでアクティブウィンドウをチャットに添付できる画面認識機能も追加。</p>
-          </div>
-          <ul class="article__sources">
-            <li><a href="https://x.com/GeminiApp/status/2062936486509785385">@GeminiApp: Create and edit images directly in Gemini Live</a></li>
-            <li><a href="https://x.com/GeminiApp/status/2064380262021214639">@GeminiApp: Gemini 3.5 Flash Canvas demo</a></li>
-          </ul>
-        </article>
-
-        <article class="article">
-          <h3 class="article__headline">Grok Voice Think Fast 1.0——EVA-Bench で精度と体験のパレート最前線</h3>
-          <div class="article__body">
-            <p>xAI が Grok Voice Think Fast 1.0 をリリース。人間に近いタイミング・トーン・温かみを持ち、EVA-Bench では「精度を落とさずに体験を犠牲にしない」パレートフロンティアで競合を上回ったと発表。価格は競合の一部とされており、音声エージェント分野での競争が本格化している。</p>
-          </div>
-          <ul class="article__sources">
-            <li><a href="https://x.com/xai/status/2064777588036530309">@xai: Grok Voice — state-of-the-art performance</a></li>
+            <li><a href="https://x.com/NotionHQ/status/2066963258985320550">@NotionHQ: GLM 5.2 が Notion で利用可能に</a></li>
           </ul>
         </article>
       </section>
@@ -189,13 +179,13 @@
         <h2 class="topic__title">コミュニティから</h2>
 
         <article class="article">
-          <h3 class="article__headline">弁護士が Claude Opus ハッカソンで優勝——「コードを一行も書いてない」</h3>
+          <h3 class="article__headline">「6 か月前がもう思い出せない」——ソフトウェアエンジニアリングの変化を実感する声</h3>
           <div class="article__body">
-            <p>「コードを一行も書いていないし、一行も読んでいない」と語る弁護士が Claude Opus ハッカソンで優勝したというエピソードが x で広く拡散。「コーディングの民主化を最もよく表す言葉」として国内エンジニアのあいだでも反響を呼んだ。また Fable 5 が自身のローンチビデオ編集に使われた事例も紹介され、ffmpeg・音声文字起こし・カラーグレーディングを含む複数ツールを Claude が自律的に組み合わせた様子が動画で公開された。</p>
+            <p>OpenAI の Greg Brockman（@gdb）が「ソフトウェアエンジニアリングは今や全く別物だ。半年前がどんなだったかすら思い出せない」と投稿し、30 万を超えるインプレッションを集めた。エージェント前提の開発が当たり前になりつつある肌感覚が、現場のエンジニアの間でも共有されている。一方で @t_wada は「このままトークン使用料が高くなり続けると、また（内製から外注へ揺り戻すような）パターンになりそう」と、コストの観点から冷静な指摘も。Fable 5 停止で利用モデルが揺れた今週、ツールへの依存とコスト・可用性のバランスを意識させる週でもあった。</p>
           </div>
           <ul class="article__sources">
-            <li><a href="https://x.com/oikon48/status/2064630668882272486">@oikon48: Claude Opus ハッカソン優勝者（弁護士）の言葉</a></li>
-            <li><a href="https://x.com/trq212/status/2064826394589442448">@trq212: Fable 5 がローンチビデオを編集した方法</a></li>
+            <li><a href="https://x.com/gdb/status/2067043685611790653">@gdb: software engineering is so different now</a></li>
+            <li><a href="https://x.com/t_wada/status/2064940910841131501">@t_wada: トークン使用料が高くなり続けると…</a></li>
           </ul>
         </article>
       </section>

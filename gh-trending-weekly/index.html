@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GitHub トレンド — 2026年6月12日</title>
+<title>GitHub トレンド — 2026年6月19日</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@400;500;700&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
     <header class="masthead">
       <h1 class="masthead__title"><a href="../">GitHub トレンド</a></h1>
       <div class="masthead__meta">
-        <span>2026年6月12日（金）</span>
+        <span>2026年6月19日（金）</span>
         <span>過去1週間</span>
       </div>
     </header>
@@ -22,46 +22,75 @@
     <main class="content">
       <section class="summary">
         <h2 class="summary__title">まとめ</h2>
-        <p>今週は「AI エージェント向けスキル」カテゴリが週間トレンドを席巻した。Claude Code や MCP エコシステムの普及を背景に、エージェントに新しい能力を付与するプラグイン型リポジトリが次々と数万スターを獲得している。同時に、LLM への入力トークンを 60〜95% 削減するという <strong>chopratejas/headroom</strong> が 11,000 超のスターを集め、AI コスト削減への強い関心を示した。ビッグテック側では Apple が Mac ネイティブの Linux コンテナツールを公開し大きな注目を集めたほか、Microsoft の markitdown も引き続き高い人気を維持している。</p>
+        <p>今週も「AI エージェント向けスキル集」が週間トレンドの中心だが、潮目が変わりつつある。先週まで個別スキルの単発リポジトリが上位を占めていたのに対し、今週は addyosmani/agent-skills（週間 +9,285★）や PM 特化の phuryn/pm-skills といった「スキルをまとめたマーケットプレイス／フレームワーク」型が台頭した。同時に、急増するスキルの安全性を検査する NVIDIA/SkillSpector が新規にランクインし、エコシステムが「作る」段階から「使いこなす・守る」段階へ移ったことを示している。エージェントの実行ログ分析（agentsview）やコードベースの知識グラフ化（codebase-memory-mcp）など、エージェント運用を支える周辺ツールも厚みを増した。LLM のトークン／推論コスト最適化（headroom、LMCache）への関心は継続。AI 以外では Apple の container が v1.0.0 に到達したほか、iptv-org/iptv や chatwoot といった定番 OSS も安定して新規スターを集めている。</p>
       </section>
 
       <section class="topic">
-        <h2 class="topic__title">AI エージェントスキル & 自律型エージェント</h2>
+        <h2 class="topic__title">AI エージェントスキル集 & セキュリティ</h2>
 
         <article class="article">
-          <h3 class="article__headline">mvanhorn/last30days-skill — マルチソース調査をワンコマンドで（週間 +12,422★）</h3>
+          <h3 class="article__headline">addyosmani/agent-skills — 開発ライフサイクルを通すスキル集（週間 +9,285★ / 累計 6.3万★）</h3>
           <div class="article__body">
-            <p>Reddit・X・YouTube・Hacker News・Polymarket・Web を横断して任意トピックを調査し、自己完結型の HTML ブリーフを生成する AI エージェントスキル。従来の検索エンジンではなく、アップボートや「いいね」など実際のユーザーエンゲージメントでコンテンツをスコアリングする点が特徴だ。ELI5 モード（平易な言葉で要約）や Best Takes（バイラルな引用を抽出）なども搭載しており、調査のオーバーヘッドを大幅に削減できる。累計 40,000 スター超という数字が示すように、エージェントスキル市場の中心的な存在になりつつある。</p>
+            <p>Google の Addy Osmani 氏による、AI コーディングエージェント向けの「実務級エンジニアリングスキル」集。要件定義から出荷までを <code>/spec</code>・<code>/plan</code>・<code>/build</code>・<code>/test</code>・<code>/review</code>・<code>/code-simplify</code>・<code>/ship</code> の 7 コマンドにマッピングし、計 24 のスキルを Define／Plan／Build／Verify／Review／Ship の 6 段階に整理している。</p>
+            <p>狙いは、エージェントが「最短経路」で雑に実装するのを防ぎ、仕様・テスト・セキュリティレビュー・品質ゲートをシニアエンジニア並みに踏ませること。コードレビュアー・テストエンジニア・セキュリティ監査・Web パフォーマンス監査の 4 つの専門ペルソナと 5 つの参照チェックリストも付属する。Claude Code・Cursor・Antigravity に対応。単発スキルから「開発プロセスごと型に流し込む」方向への移行を象徴する存在だ。</p>
           </div>
           <ul class="article__sources">
-            <li><a href="https://github.com/mvanhorn/last30days-skill">mvanhorn/last30days-skill</a></li>
+            <li><a href="https://github.com/addyosmani/agent-skills">addyosmani/agent-skills</a></li>
           </ul>
         </article>
 
         <article class="article">
-          <h3 class="article__headline">NousResearch/hermes-agent — 経験から自己成長する AI エージェント（週間 +10,733★）</h3>
+          <h3 class="article__headline">phuryn/pm-skills — プロダクトマネジメント特化のスキルマーケット（週間 +3,663★）</h3>
           <div class="article__body">
-            <p>Nous Research が公開した自己改善型 AI エージェント。会話を重ねるごとにスキルを自動生成・永続化し、ユーザープロフィールを段階的に構築していく「学習ループ」が核心機能だ。Telegram・Discord・Slack・WhatsApp・Signal・CLI など多様なインターフェイスから利用でき、200 以上の LLM プロバイダーに対応。ローカル・Docker・クラウド（Modal、Daytona）いずれの環境でも動作する。MCP 統合やスキルシステムも備え、エージェント開発基盤としての活用が広がっている。</p>
+            <p>プロダクトマネージャー向けに、ディスカバリー・戦略・実行・ローンチ・グロースをカバーするスキル群。9 プラグインに 68 スキル／42 ワークフローを収め、アイデア検証や機会マッピング、PRD・OKR・ロードマップ作成、ペルソナ・市場規模推計、SQL 生成やコホート分析・A/B テスト、Go-to-Market のビーチヘッド選定まで、確立された PM フレームワークをそのままワークフロー化している。</p>
+            <p>Claude Cowork（推奨）・Claude Code CLI・Codex CLI から導入できる。エンジニア向けのスキル集が定着したのに続き、非エンジニア職種へとスキルエコシステムが横展開している好例だ。</p>
           </div>
           <ul class="article__sources">
-            <li><a href="https://github.com/NousResearch/hermes-agent">NousResearch/hermes-agent</a></li>
+            <li><a href="https://github.com/phuryn/pm-skills">phuryn/pm-skills</a></li>
           </ul>
         </article>
 
         <article class="article">
-          <h3 class="article__headline">Leonxlnx/taste-skill — AI 出力の「味」を改善するスキル（週間 +8,413★）</h3>
+          <h3 class="article__headline">NVIDIA/SkillSpector — エージェントスキルの脆弱性スキャナー（週間 +5,505★ / 新規）</h3>
           <div class="article__body">
-            <p>AI が生成するコンテンツが退屈で画一的になりがちな問題を解決するためのスキル。具体的な指示よりも「文体の感覚」を注入することで、出力に個性と読み応えを持たせることを目指している。Claude Code ユーザーが手軽に導入できる設計で、特にライティング用途での評判が高い。シンプルな実装ながら週間 8,000 超のスターを集めた背景には、AI 出力のクオリティへの幅広い不満があると見られる。</p>
+            <p>NVIDIA が公開した、AI エージェントスキルをインストール前に検査するセキュリティスキャナー。README によれば「スキルの 26.1% に脆弱性があり、5.2% は悪意がある可能性が高い」とされ、急増するサードパーティスキルの導入前評価を埋める位置づけだ。</p>
+            <p>Git リポジトリ・URL・ZIP・ディレクトリ・単一ファイルを入力に取り、プロンプトインジェクション・データ持ち出し・権限昇格・サプライチェーン攻撃など 16 カテゴリ 64 パターンを検査する。高速な静的解析に加えて任意で LLM による意味解析を行う二段階パイプライン、OSV.dev への CVE ライブ照会（オフライン時はフォールバック）、0〜100 のリスクスコアと導入可否の提示、Terminal／JSON／Markdown／SARIF 出力に対応する。スキルを「作る」競争の裏で「守る」需要が顕在化したことを示す象徴的な新顔だ。</p>
           </div>
           <ul class="article__sources">
-            <li><a href="https://github.com/Leonxlnx/taste-skill">Leonxlnx/taste-skill</a></li>
+            <li><a href="https://github.com/NVIDIA/SkillSpector">NVIDIA/SkillSpector</a></li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="topic">
+        <h2 class="topic__title">エージェント運用・コード理解ツール</h2>
+
+        <article class="article">
+          <h3 class="article__headline">kenn-io/agentsview — コーディングエージェントのログ・コストを横断分析（週間 +1,382★）</h3>
+          <div class="article__body">
+            <p>Claude Code・GitHub Copilot・Cursor など 40 以上のコーディングエージェントのセッションを自動で発見・索引化し、ローカル完結で分析できるツール。「アカウント不要、すべてローカル、バイナリ 1 つ」を掲げ、SQLite FTS5 による全文検索、LiteLLM 連携のトークン・コスト追跡、アクティビティヒートマップやツール利用・ベロシティのダッシュボードを提供する。</p>
+            <p>Server-Sent Events によるライブ更新、SQLite（標準）／PostgreSQL（チーム共有）／DuckDB（ミラー）のマルチバックエンド、HTML や GitHub Gist へのセッション書き出しにも対応。Go 製で、複数エージェントを併用する開発者が「どこにいくら使ったか」を一元把握する用途に向く。</p>
+          </div>
+          <ul class="article__sources">
+            <li><a href="https://github.com/kenn-io/agentsview">kenn-io/agentsview</a></li>
           </ul>
         </article>
 
         <article class="article">
-          <h3 class="article__headline">Panniantong/Agent-Reach — API 不要でインターネット全体にアクセス（週間 +5,186★）</h3>
+          <h3 class="article__headline">DeusData/codebase-memory-mcp — コードベースを知識グラフ化する MCP サーバー（週間 +3,244★）</h3>
           <div class="article__body">
-            <p>Twitter/X・Reddit・YouTube・GitHub・LinkedIn・RSS など 10 以上のプラットフォームへのアクセス能力を AI エージェントに追加するツール。有料 API を使わず、オープンソースのバックエンドと無料エンドポイントを組み合わせる設計が特徴だ。プラットフォームごとにプライマリ／フォールバックを自動切り替えし、<code>agent-reach doctor</code> コマンドで接続状況を診断できる。Claude Code・Cursor・Windsurf など主要エージェント環境と互換性がある。</p>
+            <p>ソースコードから永続的な知識グラフを構築し、エージェントがファイルを逐次検索せずに構造を把握できるようにする MCP サーバー。平均的なリポジトリをミリ秒で、Linux カーネル（2,800 万行）でも 3 分で全索引化すると謳う。tree-sitter 文法を単一バイナリに同梱して 158 言語に対応し、Python・TypeScript・Go・Rust・Java・C# など主要言語ではハイブリッド LSP による型解決も行う。</p>
+            <p>検索・呼び出し追跡・影響分析・Cypher クエリ・デッドコード検出・HTTP ルート連携など 14 の MCP ツールを備え、ファイル単位の探索に比べてトークンを 99% 削減できるとする。依存ゼロの静的バイナリ、バックグラウンド差分同期、3D グラフ可視化（localhost:9749）も。Claude Code を含む 11 のエージェントを自動設定する。</p>
+          </div>
+          <ul class="article__sources">
+            <li><a href="https://github.com/DeusData/codebase-memory-mcp">DeusData/codebase-memory-mcp</a></li>
+          </ul>
+        </article>
+
+        <article class="article">
+          <h3 class="article__headline">Panniantong/Agent-Reach — API 不要でネット全体にアクセス（週間 +7,856★）</h3>
+          <div class="article__body">
+            <p>Twitter/X・Reddit・YouTube・GitHub・Bilibili・小紅書（XiaoHongShu）など 10 以上のプラットフォームの読み取り・検索能力をエージェントに付与する CLI。有料 API を使わずオープンソースバックエンドと無料エンドポイントを組み合わせる設計で、先週に続き週間 7,000 超のスターを維持し、累計 3.4 万に達した。エージェントに「外の世界を見る目」を安価に与えるニーズが根強いことを示している。</p>
           </div>
           <ul class="article__sources">
             <li><a href="https://github.com/Panniantong/Agent-Reach">Panniantong/Agent-Reach</a></li>
@@ -70,12 +99,13 @@
       </section>
 
       <section class="topic">
-        <h2 class="topic__title">LLM 開発ツール & フレームワーク</h2>
+        <h2 class="topic__title">LLM 推論・トークンコスト最適化</h2>
 
         <article class="article">
-          <h3 class="article__headline">chopratejas/headroom — トークンを 60〜95% 削減するコンテキスト圧縮ツール（週間 +11,282★）</h3>
+          <h3 class="article__headline">chopratejas/headroom — トークン削減ツール、出力削減と失敗学習を追加（週間 +10,159★）</h3>
           <div class="article__body">
-            <p>LLM に到達する前にツール出力・ログ・RAG チャンク・会話履歴などあらゆるコンテキストを圧縮し、同等の回答品質を維持しながらトークン消費量を大幅に削減する。Python／TypeScript ライブラリ、ローカルプロキシサーバー、MCP サーバーの 3 形態で導入でき、Claude Code・Cursor・Aider・GitHub Copilot CLI などに対応。CCR（可逆圧縮）により元データをキャッシュして必要時に復元する仕組みも持つ。AI エージェントの利用コストが課題になるにつれ、インフラレイヤーでの効率化ツールへの需要が高まっている。</p>
+            <p>LLM に到達する前にツール出力・ログ・RAG チャンク・ファイル・会話履歴を圧縮し、回答品質を保ったままトークンを 60〜95% 削減するコンテキスト圧縮レイヤー。先週に続きトップ級の伸びを見せ、今週は v0.26.0 までバージョンが進んだ。</p>
+            <p>JSON（SmartCrusher）・コード AST（CodeCompressor）・散文（Kompress-v2 モデル）といったコンテンツ別の圧縮に加え、新たに<strong>出力トークンの削減</strong>（モデルの冗長さを steering と effort ルーティングで抑制）や、<strong>失敗学習</strong>（<code>headroom learn</code> が失敗セッションを掘り起こして補正を自動記述）といった機能が前面に出てきた。ライブラリ・プロキシ・MCP サーバー・エージェントラッパーの 4 形態で導入でき、可逆圧縮（CCR）で元データを後から復元できる点も維持。入力削減一辺倒から、入出力・運用全体の効率化へと射程を広げている。</p>
           </div>
           <ul class="article__sources">
             <li><a href="https://github.com/chopratejas/headroom">chopratejas/headroom</a></li>
@@ -83,43 +113,24 @@
         </article>
 
         <article class="article">
-          <h3 class="article__headline">microsoft/markitdown — あらゆるファイルを Markdown に変換（週間 +7,280★）</h3>
+          <h3 class="article__headline">LMCache/LMCache — LLM 推論を高速化する KV キャッシュ層（週間 +825★）</h3>
           <div class="article__body">
-            <p>Word・Excel・PowerPoint・PDF・HTML・画像など多様な形式のファイルを Markdown テキストに変換する Microsoft 製 Python ライブラリ。LLM のコンテキストに文書をそのまま流し込む用途で広く使われており、AI パイプラインの前処理として定番ポジションを確立しつつある。今週も 7,000 超のスターを獲得し、ロングテールの継続的な支持を集めている。</p>
+            <p>一時的な KV キャッシュを再利用可能な永続データに変え、複数のサービングエンジン・ストレージ間で保存・再利用・監視できるようにする KV キャッシュ管理レイヤー。長文コンテキストのエージェントワークフローや多ターン対話、RAG など知識拡張系を主対象とし、prefill 計算の重複を排除して初回トークンまでの時間（TTFT）短縮とスループット向上を図る。</p>
+            <p>エンジン非依存のデーモンとして動作し、GPU／CPU／ローカル／リモートへの階層的オフロード、Redis・S3 などプラガブルなバックエンド、prefix を超えた非接頭辞 KV 再利用、PD ディスアグリゲーションに対応。vLLM 連携を軸に、推論基盤レイヤーでの効率化が引き続き注目されている。</p>
           </div>
           <ul class="article__sources">
-            <li><a href="https://github.com/microsoft/markitdown">microsoft/markitdown</a></li>
-          </ul>
-        </article>
-
-        <article class="article">
-          <h3 class="article__headline">CopilotKit/CopilotKit — エージェント対応 React フロントエンドスタック（週間 +2,751★）</h3>
-          <div class="article__body">
-            <p>React・Angular・Slack などに対応した AI エージェント向けフロントエンドライブラリ。チャット UI・エージェントへの状態共有・エージェント制御コンポーネントなど、いわゆる「Agentic UI」構築に必要なものをまとめて提供する。バックエンドの LLM 選択に依存しない設計で、既存の React アプリにエージェント機能を後付けするユースケースに向いている。</p>
-          </div>
-          <ul class="article__sources">
-            <li><a href="https://github.com/CopilotKit/CopilotKit">CopilotKit/CopilotKit</a></li>
-          </ul>
-        </article>
-
-        <article class="article">
-          <h3 class="article__headline">aaif-goose/goose — Rust 製の拡張可能 AI エージェント（週間 +2,509★）</h3>
-          <div class="article__body">
-            <p>ローカル環境でソフトウェアのインストール・実行・テストまで行えるオープンソース AI エージェント。Rust 製で軽量・高速な動作が特徴で、MCP サーバーとのネイティブ統合もサポート。コーディング補助だけでなく、コマンド実行やシステム操作まで行える「フルエージェント」としての利用が想定されている。</p>
-          </div>
-          <ul class="article__sources">
-            <li><a href="https://github.com/aaif-goose/goose">aaif-goose/goose</a></li>
+            <li><a href="https://github.com/LMCache/LMCache">LMCache/LMCache</a></li>
           </ul>
         </article>
       </section>
 
       <section class="topic">
-        <h2 class="topic__title">インフラ & プラットフォーム</h2>
+        <h2 class="topic__title">定番 OSS・インフラ</h2>
 
         <article class="article">
-          <h3 class="article__headline">apple/container — Apple Silicon 専用 Linux コンテナツール（週間 +4,081★）</h3>
+          <h3 class="article__headline">apple/container — Mac 向け Linux コンテナツールが v1.0.0 に到達（週間 +7,671★）</h3>
           <div class="article__body">
-            <p>Apple が公式公開した Mac 向け Linux コンテナ実行ツール。Swift 製で Apple Silicon に最適化されており、OCI 互換イメージのプル・プッシュ・実行が可能だ。macOS 26 以上に対応し、v1.0.0 をリリース済み。Docker Desktop の代替として Mac 開発者から注目を集め、公開から短期間で 34,000 スターを超えた。Apple 自社開発の「Containerization」Swift パッケージを基盤としており、OS との統合度が高い点が差別化ポイントだ。</p>
+            <p>Apple 公式の、Mac 上で軽量仮想マシンとして Linux コンテナを動かすツール。Swift 製で Apple Silicon に最適化され、OCI 互換イメージのビルド・実行・レジストリへの push に対応する。先週まで 1.0 前のプレリリースだったが、今週 <strong>v1.0.0</strong> に到達し、パッチバージョン内での安定性が保証される段階に入った。低レベル処理は Apple の Containerization Swift パッケージに依存。動作には新しい仮想化・ネットワーク機能を使うため macOS 26 以上が必要で、Docker Desktop の代替として Mac 開発者の支持を集め続けている。</p>
           </div>
           <ul class="article__sources">
             <li><a href="https://github.com/apple/container">apple/container</a></li>
@@ -127,32 +138,22 @@
         </article>
 
         <article class="article">
-          <h3 class="article__headline">lfnovo/open-notebook — NotebookLM のオープンソース代替（週間 +4,796★）</h3>
+          <h3 class="article__headline">iptv-org/iptv — 世界中の公開 IPTV チャンネル集（週間 +7,899★ / 累計 12.5万★）</h3>
           <div class="article__body">
-            <p>Google の NotebookLM に相当する機能をローカルで完結させられるオープンソース実装。OpenAI・Anthropic・Ollama・LM Studio など 18 以上の AI プロバイダーに対応し、PDF・動画・音声・Web ページを横断した全文検索とチャットができる。マルチスピーカー対応のポッドキャスト自動生成機能も持ち、商用ツール依存を嫌うユーザー層から支持を集めている。REST API も整備されており、社内ツールへの組み込みも容易だ。</p>
+            <p>世界中で公開されている IPTV（インターネットテレビ）チャンネルを集めたプレイリスト集。M3U 形式に対応するプレイヤーに <code>index.m3u</code> を読み込ませるだけで多数のライブ配信を視聴できる。用途別の派生プレイリスト、番組表（EPG）ユーティリティ、プログラムからアクセスする API も整備されている。コミュニティ主導の長寿プロジェクトで、Unlicense（パブリックドメイン）の手軽さもあって今週も大量の新規スターを集めた。</p>
           </div>
           <ul class="article__sources">
-            <li><a href="https://github.com/lfnovo/open-notebook">lfnovo/open-notebook</a></li>
+            <li><a href="https://github.com/iptv-org/iptv">iptv-org/iptv</a></li>
           </ul>
         </article>
 
         <article class="article">
-          <h3 class="article__headline">NVIDIA/cosmos — ロボット・自動運転向け世界モデルプラットフォーム（週間 +1,099★）</h3>
+          <h3 class="article__headline">chatwoot/chatwoot — Intercom 代替のオープンソース顧客サポート基盤（週間 +2,422★）</h3>
           <div class="article__body">
-            <p>物理 AI（ロボティクス・自動運転）の開発を支援する NVIDIA 製の世界モデル群とツールセット。現実世界の物理法則をシミュレーションし、ロボットや車両の行動モデルを訓練・評価するための基盤となる。研究・産業用途の重厚なプロジェクトであり、週間スターは他のトップエントリより小さいが、参照実装としての存在感は大きい。</p>
+            <p>Intercom・Zendesk・Salesforce Service Cloud の代替を狙う、セルフホスト可能なオープンソース顧客サポートプラットフォーム。ライブチャット・メール・Facebook・Instagram・WhatsApp・Telegram・LINE・SMS などを 1 つの受信箱に集約し、定型問い合わせを自動化する Captain AI エージェント、ヘルプセンター、ラベルや定型文・自動割り当てなどのコラボ機能、CSAT を含むレポートを備える。Rails + Vue.js 製で、商用 SaaS を避けたい組織からの定番として安定した支持を保っている。</p>
           </div>
           <ul class="article__sources">
-            <li><a href="https://github.com/NVIDIA/cosmos">NVIDIA/cosmos</a></li>
-          </ul>
-        </article>
-
-        <article class="article">
-          <h3 class="article__headline">aquasecurity/trivy — コンテナ・コード脆弱性スキャナー（週間 +792★）</h3>
-          <div class="article__body">
-            <p>コンテナイメージ・コード・IaC・Git リポジトリを対象に、脆弱性・設定ミス・シークレット・SBOM を検出する Go 製のセキュリティスキャナー。長年トレンド圏に居続ける定番ツールで、今週も安定した新規スターを獲得した。CI/CD パイプラインへの統合が容易な設計で、DevSecOps の基礎ツールとして広く採用されている。</p>
-          </div>
-          <ul class="article__sources">
-            <li><a href="https://github.com/aquasecurity/trivy">aquasecurity/trivy</a></li>
+            <li><a href="https://github.com/chatwoot/chatwoot">chatwoot/chatwoot</a></li>
           </ul>
         </article>
       </section>

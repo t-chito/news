@@ -186,6 +186,25 @@ body {
   margin: 0 0 8px;
 }
 
+.article__body a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.article__body a:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.article__pick-label {
+  font-family: "Inter", "Noto Sans JP", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  margin: 20px 0 8px;
+}
+
 .summary {
   margin-top: 56px;
   padding: 24px 28px;

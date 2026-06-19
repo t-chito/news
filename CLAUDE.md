@@ -20,6 +20,12 @@ repo の編集だけでは完了しない。定期発行は claude.ai/code/routi
 
 Claude 単独では完結しない。通知先トピック名は `NTFY_TOPIC` Secret にあって読めず、購読端末側の操作も要る。トピック名を repo に直書きしない（public repo なので漏れる）。Secret の再設定と端末確認はユーザーに依頼する。
 
+## readlater-weekly の Feedly 連携を触るとき
+
+`readlater-weekly` は `feedly-saved` skill 経由で Feedly の Saved for Later を読み書きする。認証は環境変数 `FEEDLY_REFRESH_TOKEN` 1 個に依存し、これは Routine 環境（claude.ai 側、repo 外）に登録されている。public repo なので token を repo に直書きしない。token はローカルでは `~/.config/feedly/refresh_token` にある。Feedly Pro 契約に紐づく developer token で、有料契約が切れると失効する。アクセストークンと user id は refresh token から毎回導出するので、設定すべきはこの 1 個だけ。
+
+unsave は破壊的操作で、Feedly 側の状態を変える。`news-publish` の発行後処理として push 成功後にだけ走る。ブリーフィングに含めた記事の `entryId` だけを外す設計なので、棚卸し後に新たに保存された記事は消さない。手動で発行する場合もこの「push 成功後・対象記事限定」を守る。
+
 ## デプロイ（GitHub Pages）
 
 配信は main ブランチの root から `OWNER.github.io/news/<topic>/`。Pages の有効化・公開ブランチ・パスは repo 設定側（repo 外）にあり、main に push された内容がそのまま公開される。新トピックを `<topic>/index.html` に置けば `/news/<topic>/` で配信される前提は、この root 配信設定に依存している。

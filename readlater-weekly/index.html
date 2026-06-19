@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Read Later — 2026年6月17日</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="masthead">
+      <h1 class="masthead__title"><a href="../">Read Later</a></h1>
+      <div class="masthead__meta">
+        <span>2026年6月17日（水）</span>
+        <span>今週の棚卸し</span>
+      </div>
+    </header>
+
+    <main class="content">
+      <section class="summary">
+  <h2 class="summary__title">まとめ</h2>
+  <p>今週の保存はAIコーディングエージェントの運用設計に強く偏った。生成の速さは前提化し、関心は「大量の出力をどう絞り込み、別モデルや専任レビューでどう検証し、権限とコンテキストをどう設計するか」へ移っている。トークン節約・LLM Wiki・仕様駆動から意図駆動への移行・テストを生きた仕様書にする発想は、いずれも同じ問いの別の側面として束ねられる。一方でアーキテクチャや設計原則、モダンCSSやキャッシュ階層といった、AIに依存しない地力を固める古典的な題材も厚く拾っており、流行と基礎の両輪で読んでいる。資格・セキュリティ・ローカルAI・予測市場・AI雇用論は周縁の関心として点在する。</p>
+</section>
+<section class="topic">
+  <h2 class="topic__title">AIコーディングエージェントの運用設計</h2>
+  <article class="article">
+    <div class="article__body">
+      <p>この束を貫いているのは、エージェントに作らせること自体はもう難問ではなく、運用に乗せる前後の「絞り込み」「検証」「権限の制御」をどう設計するかが勝負だ、という共通認識である。1日平均15.8件のPRを1人で量産した開発、1か月でニュースキュレーターを育てた事例、株・仮想通貨botを300個生成した記録はいずれも、生成の速さよりも、生成物のうち本当に使えるものをどう選び残すかに最も時間と工夫を割いている。bot生成の記事は300個のうち実運用に乗せたのは5個だと明かし、AIが付けた「おすすめ度」は信用せず、別モデル（GPT系）による批判的監査と人力バックテストを必須に据える。「デバッグはもう人間の仕事ではなくなった」も同じ構図を一般化し、5体のdebuggerと1体のcriticを対立させて仮説を相互検証させることで、根拠の薄い結論が上がってこないようにしている。生成と検証を別の役に分ける設計が、複数の独立した筆者から繰り返し提示されている点が、このテーマの中心的な結論である。</p>
+      <p>もう一つの太い論点が、エージェントに知識と権限をどう与えるかである。「オレたち流のコードを書かせる」「AGENTS.md自動更新」「認知負荷を下げるSkill」「独自タイミングのhooks」は、ルールやドキュメントやワークフローをスキルやhookに切り出して継続更新する手法を扱う。「オレたち流」の記事は「Claudeがすでに知っていることは書かない（一般的ベストプラクティスは省き、チーム固有の流儀だけを抽出する）」という方針を明確に立て、AGENTS.mdの記事も同じ思想で「指示は少ないほど良い、重要なものを上に書く」を引いている。一方で「デバッグはもう人間の仕事ではなくなった」は権限について踏み込み、Claude Codeのpermission機能やPreToolUse hookによるコマンドのブラックリストは原理的に抜け穴だらけだと断じ、クラウド側のIAMとサービスアカウント分離、sandbox-execによる認証トークン隔離で守るべきだと主張する。これはhookやsettings.jsonで安全を担保できると説く一般的な紹介と真っ向から食い違う外れ値であり、注意して読むべき対立点である。</p>
+      <p>毛色の違いも目立つ。AI-DLCの記事はAWS公式のワークフローを題材に、巨大なルールファイルを一括で読ませる方式（main）と、15個のスキルへ分業させてオーケストレータがルーティングする方式（v2）を、ドキュメント読解レベルで比較し、どちらも模索中だと結論づける。これは「ルールで縛るかスキルで分業させるか」という前述の手法選択を一段上から俯瞰する視点を与える。さらにモデル別の検証記事2本は運用論ではなく実測で、追加耐性テストの記事はモデルが高いほど指示外の「アドリブ」が増えるという直感に反する傾向を示し、レビュー特性の記事はOpus 4.7が読み手志向で辛口、GPT-5.5が原則を文字通り厳守するというレビュー人格の差を720ケースの統計で明らかにする。後者のSafety軸でGPT-5.5が許可リスト外のファイル1個を理由に85点も引く挙動は、「別モデルに批判させる」運用の根拠を具体的に裏づける。</p>
+      <p>ブラウザ自動化系は、エージェントにPlaywrightやChrome拡張を介して画面操作をさせる実装に寄っている。E2E自動修復の記事は夜間E2Eの失敗を朝までにDraft PRで直させる仕組みで、QA知見をinstructionsに蓄積する自己改善の発想が15.8件PRの記事のlearned-rulesと響き合う。ここで明確な外れ値となるのが「社内Chromeで3連敗した話」で、「全自動化させるより、ユーザーがコピペした方が速く確実な箇所は人に残すハイブリッド設計の方が、社内環境では完走率が高い」と結論する。完全自動化を志向する事例に対し、この記事は社内SSLインスペクションやChromeのプロセス統合挙動という現実の壁を踏んで、あえて人を残す判断に着地している点で、テーマ内の方向性が割れている。</p>
+      <ul>
+        <li>生成の速さは前提化し、300から5へと絞り込む選別と、別モデルや専任criticによる対立検証こそが運用設計の核心だという認識が複数の筆者で一致している。</li>
+        <li>ルール・ドキュメント・ワークフローをスキルやhookに切り出して継続更新する手法が広く共有される一方、「巨大ルールを一括で読ませる」か「スキルに分業させる」かは未決着で、AI-DLCのmain対v2比較がその縮図になっている。</li>
+        <li>安全確保について、hookやpermission設定で十分とする一般的紹介と、それを抜け穴だらけと断じてIAMとサンドボックスで守れと説く「デバッグはもう人間の仕事ではなくなった」が正面から食い違う。</li>
+        <li>完全自動化を志向する事例と、社内環境では人を残すハイブリッドが完走率を上げると説く「社内Chromeで3連敗した話」とで、自動化の射程に対する判断が割れている。</li>
+      </ul>
+      <p>全文を読む価値がある記事: <a href="https://zenn.dev/dinii/articles/debugging-is-solved">デバッグはもう人間の仕事ではなくなった</a>（本番DB・ログへのアクセス付与から、permission機能を信用するなという権限設計、Agent Teamsによる仮説検証まで、運用設計の論点を最も体系的かつ具体的なコード付きで通している一次情報）。<a href="https://zenn.dev/kobao/articles/64a72dc0167ca3">Claude Codeに株・仮想通貨botを300個作らせて見えてきたこと</a>（300→200→20→5という生々しい選別の歩留まり、データスヌーピングやリーク、疑似データ捏造といったAI特有の落とし穴を実体験ベースで列挙した、他に代えがたい実測記録）。<a href="https://zenn.dev/nnakapa/articles/lab-19-opus47-gpt55-code-review">Opus 4.7 と GPT-5.5 のレビュー特性を統計的に明らかにした</a>（720ケースの統計と等価性検定で、モデルごとのレビュー人格差を採点コメントの実例つきで切り分けた、議論ではなく計測に踏み込んだ稀な検証）。</p>
+    </div>
+    <ul class="article__sources">
+      <li><a href="https://zenn.dev/hataluck/articles/0752919b305a9f">AI が大量にアウトプットしてくるので認知負荷を下げる Skill を作った</a></li>
+      <li><a href="https://zenn.dev/mkj/articles/966c62588bd8fc">自分専用のAIニュースキュレーターをCodexで作って約1か月運用してみた</a></li>
+      <li><a href="https://zenn.dev/kobao/articles/64a72dc0167ca3">Claude Codeに株・仮想通貨botを300個作らせて見えてきたこと</a></li>
+      <li><a href="https://zenn.dev/kauche/articles/20260518_ai_driven_development_kauche_farm_mini">1日あたり平均PR作成数 15.8 件を実現した AI 駆動開発</a></li>
+      <li><a href="https://zenn.dev/sonicgarden/articles/claude-code-custom-rules-part1">Claude Codeにオレたち流のコードを書かせる（前編）— プロジェクトの流儀を自動抽出する</a></li>
+      <li><a href="https://zenn.dev/yuden/articles/playwright-auto-heal-claude-code">人間が寝ている間にClaude CodeがPlaywrightのE2Eテストを直してPRを出す</a></li>
+      <li><a href="https://zenn.dev/ryonakae/articles/338f63fb030267">AGENTS.mdをベストプラクティスに沿って自動更新する自作スキルとhook設定がいい感じ</a></li>
+      <li><a href="https://zenn.dev/ubie_dev/articles/gh-skill-install-agent-skills">gh skillが登場。GitHub公式のスキル管理ツールにnpx skillsから乗り換えた</a></li>
+      <li><a href="https://zenn.dev/dinii/articles/debugging-is-solved">デバッグはもう人間の仕事ではなくなった</a></li>
+      <li><a href="https://zenn.dev/ktg/articles/55b63d68ac2ddb">ブラウザ操作を自動キャプチャして手順書を作るChrome拡張機能を作った</a></li>
+      <li><a href="https://qiita.com/akachiryo/items/2777af8e9912d6bbbbb3?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items">個人開発でClaudeCodeに画面操作付きPR動画を生成させてXに自動投稿してる話</a></li>
+      <li><a href="https://qiita.com/hiropon122/items/12e273d9e6aca359be7d?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items">Claude Codeで独自タイミングのhooksを自作する</a></li>
+      <li><a href="https://qiita.com/ryu-ki/items/6ed097f5bf99d3d2b5a7?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items">【AI-DLC】aidlc-workflows の v2 が生えていたので差分を見てみた</a></li>
+      <li><a href="https://qiita.com/aito1234/items/11c70a0b2a2362a5c913?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items">Claude Code モデル別に追加耐性テストをしてみた</a></li>
+      <li><a href="https://qiita.com/hirashima-gmoconnect/items/733d77bbeecfe69873a6?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items">Claude CodeにPlaywrightでブラウザ操作を任せたら、社内Chromeで3連敗した話</a></li>
+      <li><a href="https://zenn.dev/nnakapa/articles/lab-19-opus47-gpt55-code-review">Opus 4.7 と GPT-5.5 のレビュー特性を統計的に明らかにした（オトナの自由研究 #19）</a></li>
+    </ul>
+  </article>
+</section>
+<section class="topic">
+  <h2 class="topic__title">トークン経済とコンテキスト効率</h2>
+  <article class="article">
+    <div class="article__body">
+      <p>3本に共通するのは、トークン節約を課金対策にとどめず、Claude に渡すコンテキストの設計そのものを問い直す動きとして捉えている点である。Zenn の2本はいずれも Claude Max x20 プランでも使用枠が苦しくなった経験から出発し、消費の主因を会話本文ではなく、設定・ルール・MCP のオーバーヘッド、長く伸びたセッション、大量ファイルの探索的読み込みに見ている。Qiita の1本は問題を Markdown の全文読み込みに絞り込み、ローカル完結で見出しチャンクだけを返す mdq という Skill を作って検証している。狙う層は異なるが、解決の方向は「必要十分な情報だけを与える」という一点に収束する。</p>
+      <p>具体策は層ごとに整理できる。入出力の層では、CLI 出力を圧縮する RTK や、Markdown を全文ではなくチャンクで返す mdq、出力日本語そのものを削る「原始人」的圧縮が挙がる。記憶の層では、セッション間メモリ（claude-mem、kizami）やローカル LLM による RAG 化で、毎回のコンテキスト再構築を避ける。ワークフローの層では、Skill やフックで探索手順を強制し、手当たり次第のファイル読み込みを排除する。「$40/日から1週間でも余裕」の記事はこの3層を独立導入可能かつ相乗効果ありとして体系化しており、3本のなかで最も俯瞰的である。</p>
+      <p>食い違いと外れ値も無視できない。同記事は Enterprise から MAX への切り替えだけで消費が劇的に改善したと報告する一方、その原因が定額制の枠に収まったためなのか、メーター内部のキャッシュ割引なのかは切り分けられていないと正直に留保している。圧縮率の数字も注意が必要で、「8選」の記事の「Jupyter 操作あたり約94%削減」は筆者自身が「Claude がそう評価していた（本当か？）」と疑義を付けており、mdq の記事は97〜99%という派手な削減率について「削減率が高い＝良い、ではない」「期待箇所が抜けたら本末転倒」「自分のリポジトリで必ず再測定せよ」と繰り返し釘を刺す。高い削減率を単独で信じる姿勢を、複数の筆者が明確に戒めている。</p>
+      <ul>
+        <li>消費の主因は会話本文ではなく、設定・ルール・MCP のオーバーヘッド、長いセッション、探索的なファイル読み込みにあるという認識が共通する。</li>
+        <li>対策は入出力・記憶・ワークフローの3層に整理でき、ローカル LLM や RAG、メモリツールで Claude 本体の処理量を減らす方向が目立つ。</li>
+        <li>圧縮率の数字は環境依存かつ自己申告が多く、「8選」は自身の94%に疑義を付し、mdq は再測定とカバレッジ確認を強く求めている。</li>
+        <li>課金構造の理解（従量課金か定額か）が節約戦略の前提を左右し、「$40/日から1週間でも余裕」はプラン変更とツール導入を別レイヤーの施策として切り分けている。</li>
+      </ul>
+      <p>全文を読む価値がある記事: <a href="https://zenn.dev/okamyuji/articles/claude-code-max-x20-token-savings">Claude Codeのトークン消費が$40/日から1週間でも余裕になった全手法</a>（課金モデルの構造差を公式ドキュメント付きで分析したうえで、節約手法を入出力・記憶・ワークフローの3層に体系化しており、原因不明な点も正直に留保しているため、全体像をつかむ起点として最も有用）。<a href="https://qiita.com/dahatake/items/ce9917268d8d18aa9b6c?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items">Markdownファイルの読み込みトークン消費量を最大98%以上圧縮する markdown-query スキル</a>（圧縮率の数字の読み方、再測定の必要、運用で初めて分かる落とし穴まで踏み込んでおり、数字に踊らされないための実践的な視点が得られる）。</p>
+    </div>
+    <ul class="article__sources">
+      <li><a href="https://zenn.dev/acntechjp/articles/1396e20b5167ce">Claude Max 20xプランでも足りないので、トークン節約のためにやったこと8選</a></li>
+      <li><a href="https://zenn.dev/okamyuji/articles/claude-code-max-x20-token-savings">Claude Codeのトークン消費が$40/日から1週間でも余裕になった全手法</a></li>
+      <li><a href="https://qiita.com/dahatake/items/ce9917268d8d18aa9b6c?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items">Vibe Coding のトークン消費量の40-60%を占めることもある、Markdownファイルの読み込みトークン消費量を最大98%以上圧縮する markdown-query スキル</a></li>
+    </ul>
+  </article>
+</section>
+<section class="topic">
+  <h2 class="topic__title">AIに知識を渡す設計（LLM Wiki・ナレッジグラフ・RAG・ログ）</h2>
+  <article class="article">
+    <div class="article__body">
+      <p>これらの記事は、扱う道具がObsidian、Notion、ナレッジグラフ、RAG、CloudWatch Logsとばらばらでありながら、ひとつの同じ主張に収束している。AIの賢さはモデルではなく「渡す知識の作り方」で決まる、という主張である。Pineconeの「モデルを良くしてもエージェントは賢くならない」という言葉、ナレッジグラフ本が引くMITの「生成AIパイロットの95%がROIを生まない、主因は技術ではなく文脈をAIが記憶せず毎回ゼロから始まることだ」という指摘、Karpathyの「質問のたびに知識をゼロから再発見している」という表現は、表現こそ違えど同じ問題を指している。複数の筆者が共通して、生のドキュメントをクエリ時に毎回解釈させるのをやめ、取り込み時に一度だけ知識を構造化して蓄積する方向へ進んでいる。</p>
+      <p>LLM Wiki系の記事は、Karpathyが2026年4月に公開したGistを起点に、Obsidian VaultをAIが読み書きする知識ベースとして使う実践を報告している。三層構造（人間が置く不変のraw層、AIが生成・保守するWiki層、人間が定義するschema層）と、ingest・query・lintの三操作が共通の骨格である。「繋げる力」の筆者は1ヶ月運用の結果、LLM Wikiの真価が要約ではなく複数ソースを横断した概念ページの自動生成、すなわち「繋げる力」にあると結論づけ、別々に取り込んだ論文群からLLM-as-Judge評価バイアスという一つのパターンが立ち上がった具体例を挙げている。PageIndexはドキュメントを意味的なツリーに変換しLLMが要約を手がかりに探索する手法で、ナレッジグラフ本はベクトル検索が苦手とする関係性の推論を構造で保証する。アプローチは違うが、いずれも「類似性ではなく構造・関連性で検索する」「LLMに型と出典と構造を持たせて渡す」という同じ原則に立つ。</p>
+      <p>整合性の維持と運用も共通の論点である。「唯一の設計思想」とナレッジグラフ本はともに、LLMが生成したWikiやRAGに誤りが紛れ込み、それが後続の参照で「正しい知識」として定着・汚染する危険を指摘する。これに対し、複数の記事が役割分担で応える。Wiki系はlintをLLMに任せる一方、contextlintはドキュメント間の整合性検証を「AIが書く、静的解析がチェックする」と明確に分離し、再現性が求められるYes/No判定をLLMの確率的出力に委ねない。Notion設計は、目的・背景・議事録・タスク・作業ログ・成果物をリレーションでつなぎ「探す」から「たどる」状態を作る点で、Obsidianのwikilinkやナレッジグラフのエッジと発想を共有する。ログ設計はAIへ渡す知識の話ではなく、コストと用途で保存先を使い分けるAWS運用論であり、テーマの中では外れ値に近い。共通項は「何を残し、いつ捨てるかを設計しないと後で困る」という運用思想の一点にとどまる。</p>
+      <p>食い違いも見える。Obsidianの「LLM Wiki構築」記事はKarpathy方式の自動増殖がコンテキスト腐敗を招くとして、書くタイミングと整理を人間が握る手動運用へ組み替えた。一方「繋げる力」は自動運用のlintで整合性を保つ立場を取り、両者は「AIにどこまで任せるか」で対立する。「ファンシーHTML化」はAIが書きAI同士でレビューする時代にはMarkdownよりHTMLが読みやすいと主張するが、これはレビュー表示の話で、知識をAIに渡す設計の本筋からはやや離れる。さらに「唯一の設計思想」は、ドキュメントが10万トークン以下なら長文脈モデルに全文を渡す方がRAGやWikiより速くて安い場合があると述べ、こうした仕組みを組む前にまず長文脈で足りるか試す価値を説いている。</p>
+      <ul>
+        <li>共通の核心は「モデルではなく知識の渡し方を変える」こと。クエリ時に毎回生ドキュメントを解釈させず、取り込み時に一度だけ構造化して蓄積し、型・出典・構造を持たせて渡す。</li>
+        <li>LLM Wikiの価値は要約集ではなく、複数ソースを横断した概念ページが自動で組み上がる「繋げる力」と、AIが飽きずにこなすbookkeeping（相互参照更新・矛盾記録・一貫性維持）の肩代わりにある。</li>
+        <li>LLM生成の知識ベースは誤りが定着・汚染するリスクを持つ。lintをLLMに任せる流派と、整合性検証を静的解析へ分離する流派（contextlint）が並立する。</li>
+        <li>「AIにどこまで任せるか」で意見が割れる。自動増殖を手放し人間が整理を握る運用と、自動lintで保つ運用が対立。規模が小さければ長文脈モデルへの全文投入で十分という反対意見もある。</li>
+      </ul>
+      <p>全文を読む価値がある記事: <a href="https://zenn.dev/nori_handa/articles/llm-knowledge-base-karpathy-wiki">社内の知見をAIが漏らさず拾う唯一の設計思想 ― Karpathy氏のLLM Wikiを実践して分かったこと</a>（LLM Wiki・Pinecone Nexus・Advanced RAG・progressive disclosureを一枚の比較表に束ね、限界とコスト緩和策まで踏み込んでおり、このテーマ全体の見取り図になる）。<a href="https://zenn.dev/tsurubee/articles/llm-wiki-connecting-knowledge">Andrej Karpathy氏のLLM Wikiを1ヶ月運用してわかった、LLMの知識を『繋げる力』</a>（1ヶ月の実運用から、別々に取り込んだ論文群が一つの評価バイアスのパターンへ統合された具体例を示し、抽象論を実測で裏づけている）。<a href="https://zenn.dev/snaga/articles/2026-06-14-doctools-with-pageindex">超精密インデックス「PageIndex」で実現する推論ベースRAG（JTC版）</a>（類似性から構造への転換、ノイズ除去最優先の思想、PPTやExcelへの適用という、Wiki系とは別経路で同じ原則に到達した実装例として読む価値が高い）。</p>
+    </div>
+    <ul class="article__sources">
+      <li><a href="https://zenn.dev/0rv3/articles/b6a7172bfda1ed">Claude Code × Obsidian で『記憶の二層構造』を作る</a></li>
+      <li><a href="https://qiita.com/usayamadausako/items/c8b5cca97554f6f64782?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items">Claude Code x Obsidianで、LLM Wiki構築 | セッションを切り替えても会話を続けられる方法</a></li>
+      <li><a href="https://zenn.dev/nori_handa/articles/llm-knowledge-base-karpathy-wiki">社内の知見をAIが漏らさず拾う唯一の設計思想 ― Karpathy氏のLLM Wikiを実践して分かったこと</a></li>
+      <li><a href="https://zenn.dev/tsurubee/articles/llm-wiki-connecting-knowledge">Andrej Karpathy氏のLLM Wikiを1ヶ月運用してわかった、LLMの知識を『繋げる力』</a></li>
+      <li><a href="https://qiita.com/htani0817/items/0cb5e8f91fa64fb9ba8c?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items">Claude Code × Obsidian Vault で作る「何でも相談」プロジェクト ― フォルダ構成・CLAUDE.md・MCP設定まで全公開</a></li>
+      <li><a href="https://qiita.com/Kashi_hldc/items/62baf03df325b338ce7d?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items">③ 組織で使うNotion設計：Notion AIを活かす情報構造の作り方</a></li>
+      <li><a href="https://zenn.dev/knowledge_graph/books/knowledge-graph-llm-guide">LLMをもっと賢くする：ナレッジグラフ実践入門</a></li>
+      <li><a href="https://zenn.dev/uehaj/articles/claude-code-fancy-html-hook">人間がMarkdownを書いたり修正しない時代に、Claude Code hookでドキュメントを自動でファンシーHTML化する</a></li>
+      <li><a href="https://zenn.dev/nozomi_cobo/articles/contextlint-introduction">Markdown ドキュメント間の整合性を検証する contextlint を作っている話</a></li>
+      <li><a href="https://zenn.dev/philosophum/articles/91188e34fb1c04">ログの「残し方」を設計する</a></li>
+      <li><a href="https://zenn.dev/snaga/articles/2026-06-14-doctools-with-pageindex">超精密インデックス「PageIndex」で実現する推論ベースRAG（JTC版）</a></li>
+    </ul>
+  </article>
+</section>
+<section class="topic">
+  <h2 class="topic__title">仕様駆動・意図駆動開発とSDLC再設計</h2>
+  <article class="article">
+    <div class="article__body">
+      <p>これらの記事を束ねると、AIコーディングが「プロンプト一発のVibe Coding」から始まり、仕様駆動開発(SDD)へ、さらに意図駆動開発(IDD)へと段階的に進む流れが見えてくる。Superpowersを使ったFlutterアプリ開発の記事は、この進化を構造なし(Vibe Coding)、何を作るかのドキュメント(SDD)、どう作るかのプロセス強制(スキルフレームワーク)という三段階で整理し、Brainstorming→Plan→実装→テスト→Finishingという各フェーズに人間の承認ゲートを置く実例を示す。ここでは実装エージェントとテストエージェントを分離し、各タスク完了後にスペック準拠レビューを自動実行して、HabitRecordモデルのcopyWith()欠落を検出して即修正するところまで踏み込んでいる。SDLCを一周描き直すLiving Bookも、仕様策定からテスト戦略、レビュー自動化、Living Specs維持、SDDプロセス自体の可観測性までを再設計の対象として並べる。</p>
+      <p>意図駆動開発の記事は、このSDDが抱える矛盾を突く。仕様書にHow(実装の詳細)が混入してスペックレビュー地獄に陥り、ドキュメントとコードの二重管理コストが膨らむという問題である。その解として、開発の起点をWhy(なぜ)とWhat(何を)だけで構成するIntentに置き、Howはコードに委ねる。Intentは更新せず、追記のみのイミュータブルなADRとして積み重ねることで、git(コードの歴史)とADR(判断の歴史)が並走し、二重管理が原理的に発生しなくなると主張する。一方で「解空間を収束させる力」の記事は、AIが変えたのは収束ループそのものではなく実装候補を作るコストであり、人間の仕事は候補を書くことから候補を評価して捨てて残すことへ移ったと整理する。</p>
+      <p>これらを貫くのは、AIの出力を信頼するのではなくAIが失敗を観測できる足場を与えるという発想である。プロンプト再現性をAIに自動チューニングさせる記事は、書いた直後の自分が一番ダメな読者であり主観バイアスは書き手側で潰せないという前提から、別AIに実際にやらせて詰まった箇所をレポートさせる修正ループを回す。固定シナリオ、毎回新規AI dispatch、hold-outシナリオで過適合を弾くという再現性重視の設計で、8個のskillを50点から80〜90点まで底上げした実測値を示す。spec-to-readable-htmlスキルは、同じ思想を文書側に適用し、推測した内容にInferredラベルを付け仕様キーワード(MUST/SHOULD)を原文のまま保持するトレーサビリティ確保で、要約による意味の変質を防いでいる。</p>
+      <ul>
+        <li>進化の流れは一直線ではなく、SDDの「Howが混入して二重管理になる」問題への反作用としてIDDが現れる。SDDを強化するSuperpowersと、SDDを脱構築するIDDは方向が逆を向いている。</li>
+        <li>共通項は、AIに任せきるのではなく検証可能な足場(テスト、スペック準拠レビュー、別AIによる評価、トレーサビリティラベル)を人間が設計し、AIが失敗を観測して収束できる形に変換すること。</li>
+        <li>再現性の扱いに食い違いがある。プロンプト自動チューニングの記事は固定シナリオ・新規AI dispatch・hold-outという厳密な手法で再現性を測るのに対し、プロンプト検証のQiita記事は主観評価で3回ずつ実行する程度にとどまり、本人も少数回検証で差が限定的と認めている。後者は前者の言う主観バイアスの罠にそのまま当てはまる外れ値といえる。</li>
+        <li>役割付与の効果にも食い違いがある。Qiita記事は「世界最高のエンジニア」のような過剰な役割付与がかえって精度を下げると主観で確認するが、実際のところさまざまな解釈があると留保しており、結論としては弱い。</li>
+      </ul>
+      <p>全文を読む価値がある記事: <a href="https://zenn.dev/yamaken0107/articles/2b3d2a0b059aa0">仕様駆動開発(SDD)から、意図駆動開発(IDD)へ</a>（SDDの構造的欠陥とADRによる解決を、仕様書とADRの本質的な違いまで掘り下げて論じており、テーマ全体の転換点を最も明快に示す）。<a href="https://zenn.dev/mizchi/articles/empirical-prompt-tuning">プロンプトの再現性をAIに自動チューニングさせる方法 ~ 暗黙知を排除する</a>（記事自身を同手法のループに通して7反復で6/20から16/20まで改善する過程を全公開しており、再現性をどう実測するかの具体が密度高く書かれている）。</p>
+    </div>
+    <ul class="article__sources">
+      <li><a href="https://zenn.dev/myntai/books/spec-driven-frontier">仕様駆動開発最前線 — SDLC を一周描き直す Living Book</a></li>
+      <li><a href="https://zenn.dev/yamaken0107/articles/2b3d2a0b059aa0">仕様駆動開発(SDD)から、意図駆動開発(IDD)へ</a></li>
+      <li><a href="https://zenn.dev/tesla/articles/f67c29415a02fc">AI時代の実装力は『コードを書く力』から『解空間を収束させる力』へ移った</a></li>
+      <li><a href="https://zenn.dev/mizchi/articles/empirical-prompt-tuning">プロンプトの再現性をAIに自動チューニングさせる方法 ~ 暗黙知を排除する</a></li>
+      <li><a href="https://qiita.com/aito1234/items/71ba3d38e563ca7faaa6?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items">プロンプトの書き方でどこまで変わる？実際に検証してみた</a></li>
+      <li><a href="https://qiita.com/kunitomo926/items/305540d2ab13e61806c9?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items">Vibe Coding、スペック駆動開発を一歩進める Superpowers という現実解で Flutter アプリを作ってみた話</a></li>
+      <li><a href="https://zenn.dev/spacemarket/articles/6c4992227d0b0d">スペック文書を「読みたくなるHTML」に変換するClaude Codeスキルを作った話（スキル本文付き）</a></li>
+    </ul>
+  </article>
+</section>
+<section class="topic">
+  <h2 class="topic__title">ソフトウェアアーキテクチャと設計原則</h2>
+  <article class="article">
+    <div class="article__body">
+      <p>これらの記事を貫くのは、アーキテクチャや設計原則の存在理由をただ一つ、コードの変更を安全かつ容易にすることに還元する見方である。クリーンアーキテクチャを3行に切り詰めた記事は、業務的な関心を中心に置き、業務と技術の都合を境界で分け、データベースやUIといった具体技術を差し替え可能にするという3点に要約したうえで、すべてのアーキテクチャは変更を少しでも簡単にするために存在すると述べる。2層構造からMVC、レイヤード、ヘキサゴナル、オニオン、クリーンへと至る進化史を図解した記事も、各構造が前の構造の課題を解決するために生まれたという因果でつなぎ、Fat ModelからFat Serviceへ、さらにドメインのインフラ依存へと問題が移り、依存性逆転で解消されていく流れを描く。DDD実装パターンの読み替え、UMLの盛衰、原理原則の整理も、すべてこの変更容易性という共通軸の上に並ぶ。</p>
+      <p>設計原則を扱う記事群は、KISS、YAGNI、DRY、参照の一点性、SLAPといった原則を、規則として守るためではなく開発を楽にするための知恵として位置づける。原理原則を解説した記事は、メソッドを過剰に分割すると追跡コストが上がるという例を挙げ、分けることが綺麗なのではなく読み手の認知負荷が下がるかどうかを判断軸にすべきだと説く。DRYについても、見た目が似ているだけで変更理由が異なるロジックを機械的にまとめる危険を指摘し、変更の理由が同じかを確認してから集約せよと釘を刺す。条件分岐の記事は、早期リターンやRecord型のmapで分岐そのものを構造で減らす手法を、C#やTypeScriptの具体コードとともに示す。</p>
+      <p>AIがコードを書く時代をどう捉えるかでは、複数の記事が同じ方向を向く。原理原則の記事は、出力されたコードが変更に耐えられるかを判断するのは2026年時点でまだ人間の仕事だとし、Rails開発者がDDDに転向した記事は、実装のボトルネックが書くことから判断することへ移り、レイヤー分離が読む時と動かす時の両方で判断コストを下げると論じる。設計思想を知っているかどうかがAIの出力を評価する物差しになるという認識が共通している。</p>
+      <p>一方で食い違いと外れ値もある。クリーンアーキテクチャを3行で説明した記事は、Goのプロダクトを眺めて抽象化とDIを伴うレイヤードは過剰だと感じると率直に書き、丁度良い塩梅を探る姿勢を取る。これに対し、Rails開発者の記事は最初に感じた回りくどさが運用とチーム開発の中で複利で効いてくると評価し、層を厚くする側に立つ。両者はどちらが正解という話ではなく、規模と寿命と変更頻度で選ぶという点では一致するが、過剰か必要かの感覚は対照的である。UMLの記事はさらに踏み込み、図を完全な設計書として実装を支配しようとするUMLという制度は変更速度の高い領域で死んだと断じる一方、機能安全や認証が絡む長いリリース周期の領域ではSysMLやSimulinkとして現役だとし、設計の重さは普遍ではなくリリース周期と維持費の損益分岐で決まると整理する。</p>
+      <ul>
+        <li>すべてのアーキテクチャと設計原則の存在理由を、変更を安全かつ容易にすることに還元する見方が共通する。</li>
+        <li>レイヤードやクリーンアーキテクチャの進化史は、Fat Model、Fat Service、ドメインのインフラ依存という課題を順に解決し、依存性逆転に行き着く因果で語られる。</li>
+        <li>原則は守るルールではなく開発を楽にする知恵であり、DRYやメソッド分割は機械的に適用せず認知負荷と変更理由で判断する。</li>
+        <li>過剰設計への疑念とレイヤー分離の擁護が対立するが、規模と寿命で選ぶ点とAI時代に判断コストが支配的になる点では一致する。</li>
+      </ul>
+      <p>全文を読む価値がある記事: <a href="https://zenn.dev/pdfractal/articles/b6f83bbc319501">なぜ、2000年代には巷で耳にした「UML」を現在では全く耳にしないのか？</a>（ラショナル起源の重いUMLからファウラーの軽いUML、MDAの不渡り、クラウドとCI/CDによる変更速度の上昇まで、出典つきの史実で設計の重さの損益分岐を論じており、他記事が前提にする変更容易性という軸の歴史的な裏づけになる）。あわせて <a href="https://zenn.dev/neoai/articles/b843fc78203295">5年間のRails開発者がDDDに出会って考えが変わった話</a>（住所カラム分割やCI時間の短縮といった具体例で、レイヤー分離の利点を実測に近い体験として語り、AI時代の判断コスト論まで踏み込む）。</p>
+    </div>
+    <ul class="article__sources">
+      <li><a href="https://zenn.dev/seita1996/books/architecture-study-guide">Architecture Study Guide</a></li>
+      <li><a href="https://zenn.dev/innovation/articles/d3b5c1975e3c02">クリーンアーキテクチャを3行で説明してみる</a></li>
+      <li><a href="https://zenn.dev/luup_developers/articles/server-isamu-20260520">フロントエンドもアーキテクチャに向き合う！</a></li>
+      <li><a href="https://zenn.dev/ippe/articles/learn-programming-principles-by-coding">コードを書きながら学ぶ プログラミングの原理原則</a></li>
+      <li><a href="https://zenn.dev/neoai/articles/b843fc78203295">5年間のRails開発者がDDDに出会って考えが変わった話</a></li>
+      <li><a href="https://zenn.dev/pdfractal/articles/b6f83bbc319501">なぜ、2000年代には巷で耳にした「UML」を現在では全く耳にしないのか？</a></li>
+      <li><a href="https://qiita.com/hiroki_notes/items/893660ef56844d62729e?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items">DRY / KISS / YAGNI をC#で理解する：現場で使えるシンプル設計原則まとめ</a></li>
+      <li><a href="https://qiita.com/yut-nagase/items/21703af242e7ebfc37a9?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items">【図解】2層構造→MVC→レイヤード→ヘキサゴナル→クリーンアーキテクチャ：設計思想の進化を一気に理解する</a></li>
+      <li><a href="https://zenn.dev/mlbread/articles/c34e65a20295e7">「アーキテクチャモダナイゼーション」読んだ感想</a></li>
+      <li><a href="https://zenn.dev/panda728/books/criteria-pattern-ddd">障害対応の認知負荷を下げるCriteriaパターンとDDD</a></li>
+      <li><a href="https://zenn.dev/panda728/articles/09b3d5e9377122">ソースコードを読まずに「なぜ」を特定する ―― 可視化の解像度を上げる方法とは</a></li>
+      <li><a href="https://qiita.com/Nao52/items/38757bc86c30f0326519?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items">【TypeScript】条件分岐のベストプラクティス ── ネスト・switch・フラグ引数を卒業しよう</a></li>
+    </ul>
+  </article>
+</section>
+<section class="topic">
+  <h2 class="topic__title">AI時代のテスト戦略</h2>
+  <article class="article">
+    <div class="article__body">
+      <p>6本の記事は、テストを「正しさの確認」から「品質を構造として設計し、変化に耐える資産にする」営みへと位置づけ直している点で一本の線につながる。最上流では、狩野モデルや脅威モデリングで当たり前品質を抽出し、ビジネス価値との因果をたどってどこをテストするか絞り込むテストアーキテクチャ戦略が語られる。そこから一段下りると、各機能が単体で正しくてもユーザーの操作フローで不具合が起きるという問題意識のもと、ユーザーの行動を起点にゴールまでの流れを確認するシナリオテストが、単体・結合・システムテストを置き換えずに補う層として置かれる。両者は、機能起点の検証だけでは利用時品質を担保できないという共通認識で噛み合っている。</p>
+      <p>戦術のレベルでは、振る舞い（何をするか）に焦点を当ててテストを書くことでリファクタリング耐性を高め、その副産物としてテストコードが日本語の「生きた仕様書」になるという主張が核になる。この仕様書は人間だけでなくAIエディタにコンテキストとして与える際にも有効だと述べられ、テストとAIの結合点が示される。AIとの結合点はもう一方からも現れる。QAエンジニアが、改修の影響範囲を「上から辿る」のではなくDBカラム・翻訳キー・トグル・権限・設定値という5つの起点から「逆引き」する探索軸をAIへの指示書として設計した事例である。深いネストに強く取りこぼしのない探索軸を与えるという発想は、シナリオテストが狙う影響範囲の網羅と同じ目的を、AI活用という別の手段で追っている。</p>
+      <p>足元の現実への接地も二方向から補強される。テストがないレガシーコードに対しては、デバッグプリントで入出力を採取してまず雑なテストで固め、カバレッジを段階的に上げながらリファクタリングへ進む育て方が、年単位の道筋として提示される。境界値については、カバレッジ100%でも比較演算子の境界が検証されていない穴を突いて、コードの境界値と既存テスト値をASTで照合し不足を警告するGoの静的解析ツールが紹介される。前者が「テストの量と信頼を育てる」のに対し、後者は「網羅したつもりの穴を機械的に暴く」点で補完関係にある。</p>
+      <p>食い違いと外れ値も明確にある。振る舞いテストの記事は、実装詳細に寄せたテストを脆いアンチパターンとして退ける一方、Infrastructure層だけは発行されるSQLそのものが仕様だとして実装（HOW）に寄せたテストを例外的に推奨しており、「振る舞いを見よ」という原則に自ら例外を設けている。レガシーコードの育て方の記事は逆に、管理しづらいと一般に避けられる共有フィクスチャを「この段階では構わない」と一時的に許容し、理想形を初手から求めない立場を取る。整理の枠組みも統一されていない。狩野モデルやBSCといった重量級フレームワークでマクロから攻める戦略記事に対し、QAの記事は「画面UIは5つしかない」という極端に絞った分類で軽量に攻めており、抽象度の置き方が対照的である。技術スタックの面では境界値ツールと振る舞いテストの記事がGoを土台にする一方、レガシー育成の記事はJavaScriptを例にしており、適用領域の広さに差がある点も外れ値として読める。</p>
+      <ul>
+        <li>テストは正しさ確認ではなく品質の設計対象であり、上流の品質定義から下流の境界値・レガシー対応まで連続した戦略として束ねられる。</li>
+        <li>機能起点の検証だけでは利用時品質を取りこぼすという問題意識が、シナリオテストと影響範囲の逆引きという別々の手段で共有されている。</li>
+        <li>振る舞いベースのテストは「生きた仕様書」となり、人間だけでなくAIへのコンテキストや探索の指示書としても機能するという、AI時代ならではの結合点が複数記事に現れる。</li>
+        <li>「振る舞いを見よ」の原則にInfrastructure層という例外があり、共有フィクスチャの許容や枠組みの抽象度でも記事間に意図的な食い違いがある。</li>
+      </ul>
+      <p>全文を読む価値がある記事: <a href="https://qiita.com/takishun_schoo/items/5b5fd06d488119daa899?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items">「テストコードは仕様書になる」クリーンアーキテクチャの各層で「振る舞い」をテストするべき理由</a>（振る舞いテストの原則と層ごとの例外、Before/Afterの具体コードまで揃い、このテーマ全体の軸になる考え方を最も実装に近い粒度で押さえられるため）。<a href="https://zenn.dev/horicchy/articles/7076932bff319b">QAエンジニアがAIスキルを作った理由：「画面UIは5つしかない」という気づきに至るまで</a>（影響範囲を逆引きで網羅するという発想転換が、AIへの探索指示書という形でテスト観点の網羅性に直結しており、AI時代のテスト戦略として独自性が高いため）。</p>
+    </div>
+    <ul class="article__sources">
+      <li><a href="https://qiita.com/Kudo_panda/items/509bdc7e9ab639abf0b4?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items">テストアーキテクチャの全体戦略：品質定義から継続的改善まで</a></li>
+      <li><a href="https://zenn.dev/horicchy/articles/7076932bff319b">QAエンジニアがAIスキルを作った理由：「画面UIは5つしかない」という気づきに至るまで</a></li>
+      <li><a href="https://qiita.com/sewiihidekikudo/items/fbc9d0d8b7d602c7fb20?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items">【初心者向け】シナリオテストとは？ユーザー視点でバグを減らす考え方</a></li>
+      <li><a href="https://zenn.dev/takaaki/articles/growing-tests-for-untested-code">テストがないコードへのテストの育て方</a></li>
+      <li><a href="https://zenn.dev/tsubasa_m/articles/173d01c0572068">境界値に対してのテスト実装状況を検証する静的解析ツールを作った</a></li>
+      <li><a href="https://qiita.com/takishun_schoo/items/5b5fd06d488119daa899?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items">「テストコードは仕様書になる」クリーンアーキテクチャの各層で「振る舞い」をテストするべき理由</a></li>
+    </ul>
+  </article>
+</section>
+<section class="topic">
+  <h2 class="topic__title">フロントエンドの設計・CSS・パフォーマンス</h2>
+  <article class="article">
+    <div class="article__body">
+      <p>この棚には、CSS の表現力、描画とキャッシュのパフォーマンス、コンポーネントとディレクトリの設計、そして AI エージェントとの連携という、一見ばらばらに見える9本が混在している。これらは「人間が制約を先に設計し、その制約を機械（ブラウザのレイアウトエンジン、あるいは AI エージェント）に委ねて品質と速度を引き出す」という一本の軸で束ねられる。Google の Modern Web Guidance は、固定値より intrinsic sizing を、物理プロパティより論理プロパティを、変数より currentColor や inherit を優先せよと説き、判断をブラウザに委ねるほどレイアウトは壊れにくく速くなると主張する。border-shape は、これまで clip-path と filter: drop-shadow() を組み合わせて近似していた「任意形状かつ影が追従する輪郭」を宣言的に書けるようにし、表現の責任を CSS 自身に移す。両者は同じ方向を向くが、適用範囲が違う。Modern Web Guidance が全ブラウザ対応の機能だけを抽出した実務指針であるのに対し、border-shape は W3C Working Draft の段階で Chrome / Edge 147 以降のみ対応し Firefox と Safari は未対応という、まだ本番投入できない外れ値である点に注意がいる。</p>
+      <p>パフォーマンスの2本は、最適化の根拠を提供する。Critical Rendering Path の記事は、HTML から DOM、CSS から CSSOM、Render Tree、Layout、Paint、Composite という描画パイプラインを辿り、transform と opacity が 60fps アニメーションで推奨される理由を Re-composite が最も軽い処理だからと説明する。キャッシュ階層の記事は、Component、Runtime Memory、Persistent、Service Worker、HTTP、CDN の6レベルを、上位ほどデータ・狭いスコープ・開発者の制御が強く、下位ほどリソース・広いスコープ・自動化が進むと整理する。両者に共通するのは「計測してから手を打て」という姿勢で、React.memo も実際に計測された問題があるときだけ使えと釘を刺している。</p>
+      <p>設計と AI 連携の3本は、AI に作らせる前に人間が制約を組む発想で一致する。再帰的 features 構成は、API 呼び出しを index.tsx に集約し component は props だけで動かすことで、API モックの要否がそのまま feature と component の判別基準になる構造を提示する。デザイナー向けコンポーネント設計論は、間接化・カプセル化・制約・意味の符号化・合成・慣習の6原則を関心の分離で貫き、AI 時代だからこそ意味の正確さ（命名・型・バリアント）が設計意図を読み取る土台になると説く。pre-design-md は、フォント・余白・角丸・影・色の土台を人間が先に決めて DESIGN.md や Rich Prompt として AI に渡すツールで、ここに小さな食い違いがある。React Doctor とデザイナー設計論はどちらも Agent Skills を AI への知識付与手段として扱うが、React Doctor の記事は Agent Skills を Vercel が提唱した仕様と説明する一方、MCP の記事は MCP を Anthropic が提唱したプロトコルと説明しており、AI 連携の標準が複数の出自から並立している現状が透ける。</p>
+      <ul>
+        <li>軸は「人間が制約を先に設計し、ブラウザや AI に委ねる」。Modern CSS は判断をブラウザへ、デザインハーネスや設計原則は判断を AI へ委ねる前提を整える。</li>
+        <li>パフォーマンスの2本（CRP・キャッシュ階層）は、設計判断の根拠を与える。いずれも計測を伴わない先回り最適化を戒める。</li>
+        <li>外れ値は border-shape である。表現力は高いが Firefox / Safari 未対応かつ Working Draft 段階で、Modern Web Guidance の「全ブラウザ対応のみ抽出」という方針と相反する。</li>
+        <li>食い違いとして、AI への知識付与の標準が Agent Skills（Vercel 提唱とされる）と MCP（Anthropic 提唱）に分かれており、出自の異なる仕組みが並立している。</li>
+      </ul>
+      <p>全文を読む価値がある記事: <a href="https://zenn.dev/ubie_dev/articles/modern-css-dos-donts">GoogleのModern Web Guidanceに学ぶ、モダンCSSのDos / Don'ts大全</a>（全ブラウザ対応に絞った Dos / Don'ts が caniuse リンク付きで網羅され、明日の実装にそのまま効く密度の高さがある）。<a href="https://zenn.dev/yy/books/b62994c6b0b1e9">デザイナーのためのコンポーネント設計論</a>（6原則を関心の分離で体系化し、Radix の Dialog と AlertDialog のように見た目が同じでも意味で分ける判断軸を与える点が、CSS から AI 連携まで全テーマの土台になる）。</p>
+    </div>
+    <ul class="article__sources">
+      <li><a href="https://zenn.dev/ubie_dev/articles/modern-css-dos-donts">GoogleのModern Web Guidanceに学ぶ、モダンCSSのDos / Don'ts大全</a></li>
+      <li><a href="https://zenn.dev/astrologian/articles/61bed1c5e45a76">border-shape で UI の輪郭を自由にデザインする</a></li>
+      <li><a href="https://qiita.com/tms-phucvu/items/d0b8c99804f8d6fadb42?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items">Critical Rendering Path：ソースコードから画面上のピクセルまでの旅</a></li>
+      <li><a href="https://qiita.com/NXD139/items/e1eef1c2735083b7e6e4?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items">フロントエンドにおけるキャッシュの全レベルを理解する</a></li>
+      <li><a href="https://zenn.dev/pksha/articles/recursive-features-directory-structure">フロントエンドのディレクトリ構成で再帰的な features 構成を推したい</a></li>
+      <li><a href="https://zenn.dev/yy/books/b62994c6b0b1e9">デザイナーのためのコンポーネント設計論</a></li>
+      <li><a href="https://zenn.dev/pepabo/articles/74653f4d78eb7b">AIにUIを作らせる前に、デザインの土台を自分で決めるツールを作った</a></li>
+      <li><a href="https://zenn.dev/my_vision/articles/34a92a674a7c47">AIコーディングエージェント時代のReactコード診断ツール「React Doctor」</a></li>
+      <li><a href="https://zenn.dev/actbe_tech/articles/a0f1f3609cfc9d">フロントエンド開発で使えるMCPサーバーを徹底的にまとめてみた</a></li>
+    </ul>
+  </article>
+</section>
+<section class="topic">
+  <h2 class="topic__title">AIスロップと「書く量より質」</h2>
+  <article class="article">
+    <div class="article__body">
+      <p>3本に共通するのは、AIで成果物の量を増やすこと自体には価値がなく、人間が判断・検証できる形まで質を高めて初めて意味を持つという見方です。Zennの「AIが書く量を増やすより、AIスロップを減らしたい」は、低品質な大量生産だけでなく、内容が正しくても人間の判断に使いにくい成果物もAIスロップと定義し直し、Linus Torvalds氏がOpen Source Summit North America 2026で指摘した「フォローなきAI生成pull requestやバグ報告が受け取る側の負担になる」事例を引きながら、生成量より読解コストの削減を主張します。Qiitaの「『あ、これAIが書いたな』と一瞬でバレる技術記事の6つの特徴」は、その低品質な出力が実際にどう現れるかを示します。異常な文字数と網羅性、5000文字を超える冗長さ、聞いてもいない歴史的背景からの説明といった特徴は、量を膨らませても質に結びつかない典型例です。</p>
+      <p>Zennの「Hermes Desktop の設定 186 項目を実機とソースで全部調べて」は、量と質を両立させた対極の事例にあたります。v0.16.0・コミットd165933にバージョンを固定し、Computer Useで設定14画面のアクセシビリティツリーを採取し、既定値を設定APIのDEFAULT_CONFIGとソースコードで裏取りするという、186項目すべてに根拠を付けた検証手法を取っています。網羅性そのものは否定されず、検証と根拠の明示を伴えば質の高いリファレンスになるという点で、単なる文字数の多さとは区別されます。</p>
+      <p>3本の間に明確な食い違いもあります。Qiita記事は「無理やりTo-Doリストやチェックリストにまとめたがる」ことや過剰なMermaid図解をAIらしさの欠点として挙げますが、Zennのスロップ削減記事はsection・h2・tableといったセマンティックなHTMLタグやカバレッジ・テストケース表の出力を、むしろ人間の判断を助ける手段として推奨します。構造化や図解そのものが問題なのではなく、それが読み手の判断コストを下げるか膨らませるかで評価が分かれる、という軸で両者は整理できます。</p>
+      <ul>
+        <li>量を増やすこと自体に価値はなく、人間が判断・検証できる形まで質を高めて初めて意味を持つという見方で3本が束ねられる。</li>
+        <li>網羅性は一律に悪ではない。検証と根拠の明示を欠けばスロップになり、バージョン固定と実機・ソース照合を伴えば質の高いリファレンスになる。</li>
+        <li>チェックリストや図解などの構造化は、読み手の判断コストを下げるか膨らませるかで評価が割れ、記事間で推奨と批判に分かれる。</li>
+      </ul>
+      <p>全文を読む価値がある記事: <a href="https://zenn.dev/takna/articles/hermes-desktop-settings-guide">Hermes Desktop の設定 186 項目を実機とソースで全部調べて、日本語ガイドを公開した</a>（バージョン固定・Computer Useによる実機監査・設定APIとソース照合という再現可能な検証手順を具体的に示しており、量と質を両立させる方法論として参考になる）。あわせて <a href="https://zenn.dev/ttaniguchi/articles/ai-prompting-next">AIが書く量を増やすより、AIスロップを減らしたい</a>（スロップを「人間の判断に使いにくい成果物」と定義し直す視点が、このテーマ全体の軸になる）。</p>
+    </div>
+    <ul class="article__sources">
+      <li><a href="https://zenn.dev/ttaniguchi/articles/ai-prompting-next">AIが書く量を増やすより、AIスロップを減らしたい</a></li>
+      <li><a href="https://qiita.com/gorie-site/items/4ff2efbaa38575edd6a8?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items">「あ、これAIが書いたな」と一瞬でバレる技術記事の6つの特徴</a></li>
+      <li><a href="https://zenn.dev/takna/articles/hermes-desktop-settings-guide">Hermes Desktop の設定 186 項目を実機とソースで全部調べて、日本語ガイドを公開した</a></li>
+    </ul>
+  </article>
+</section>
+<section class="topic">
+  <h2 class="topic__title">スライド・資料のデザイン生成</h2>
+  <article class="article">
+    <div class="article__body">
+      <p>2本の記事は、生成AIにスライドを作らせる際の弱点をどこで補うかという問いを、別の場所に置いている。TOKIUMの記事は、登壇者の頭の中にしかない「ストーリー構成」と「スライド1枚の視線誘導」を生成AIに教え込む作業に注目する。素の生成AIはスライドの流れについて抽象的な一般論しか返せず、どの文章に登壇者の知見が込められていて強調すべきかも自力で判断できないため、人間が意識して教える必要があると論じる。ラッコ社の記事は、Anthropicが2026年4月に発表したClaude Designを使い、既存資料からブランドの色・文字まわり・余白・言葉づかいのトーンまでを「デザインシステム」として一度抽出すれば、非デザイナーでも原稿を渡すだけで統一された資料を作れるようになると論じる。前者がストーリーと視線誘導という伝達設計を人間の領分に残すのに対し、後者は見た目の統一という土台を仕組みに肩代わりさせる、という分担の違いがある。</p>
+      <p>両者を束ねると、デザインの土台を事前に用意して生成AIの出力の振れ幅を抑えるという発想が共通する。TOKIUMの記事は段落・図表の配置や構図をレイアウトパターンとして10種類以上ストックし、視線誘導の調整時間を削減したと述べ、広木さんが7カテゴリ40種類のパターンをエージェントスキルに組んだ実践も紹介する。ラッコ社のデザインシステムも、土台を資産として残し2本目以降を速くする点で同じ方向を向く。一方で食い違いも明確で、TOKIUMの筆者は生成AI版と手書き版を比べたうえで「どちらの資料で登壇したいか」と問われれば手書き版を選ぶと述べ、ストーリー構成を効率よく生成AIに伝える術はまだ発見できていないと認める。ラッコ社は制作時間が数日から1時間未満へ縮んだと評価しつつ、原稿どおりすぎてスライドにすると微妙になる問題や複雑な図解を言葉だけで指示しきれない弱点を挙げ、複雑な図はChatGPTで下絵を作ってからClaude Designに渡すという回避策を示す。外れ値として、TOKIUMの筆者は資料から生成AIくささを消すこと自体には関心がなく、受け手に伝わるかと本人が楽しく登壇できるかを基準に置く立場をとる。</p>
+      <ul>
+        <li>共通点は、レイアウトパターンやデザインシステムという土台を事前に用意することで生成AIの出力の振れ幅を抑え、調整作業を減らすという発想にある。</li>
+        <li>食い違いは、人間が握る領分の置き場所にある。TOKIUMはストーリー構成と視線誘導という伝達設計を人間に残し、ラッコ社は見た目の統一を仕組みに任せ、仕上げと事実確認だけを人間に残す。</li>
+      </ul>
+      <p>全文を読む価値がある記事: <a href="https://zenn.dev/tokium_dev/articles/slide-deck-craft-with-ai">「ストーリー」と「視線誘導」を意識しながら、生成AIとともにイイ感じのスライドを作る</a>（生成AI版と手書き版を具体的に比較し、生成AIがスライドで狙ったものを出しにくい理由を導入とまとめの連動・視線誘導という観点から分解しているため、ツールに依存せず応用が利く知見が得られる）。</p>
+    </div>
+    <ul class="article__sources">
+      <li><a href="https://zenn.dev/tokium_dev/articles/slide-deck-craft-with-ai">「ストーリー」と「視線誘導」を意識しながら、生成AIとともにイイ感じのスライドを作る</a></li>
+      <li><a href="https://zenn.dev/rakko_inc/articles/claude-design-company-deck">なぜスライド作りはClaude Designでやるべきなのか？</a></li>
+    </ul>
+  </article>
+</section>
+<section class="topic">
+  <h2 class="topic__title">その他（学習・資格・運用基盤・雇用論）</h2>
+  <article class="article">
+    <div class="article__body">
+      <p>このテーマは寄せ集めだが、いくつかの束に分けて読める。まず資格と学習法の束がある。統計検定2級・準1級の合格記は、とけたろう先生のYouTube動画を倍速で1周してから公式問題集を回す方法で2級は79点、準1級は62点とギリギリ合格した経緯を、得点率まで開示して書いている。準1級は本番が過去問よりさらに難しく、重箱の隅をつつく初見問題が多かったと振り返り、まず1回CBTで受けて出題傾向を肌で知るやり方を勧めている。Gemini爆速学習法はAWS DEAを1週間で取得した記録で、Geminiに「3回質問するたびにMarkdownでまとめを出させる」プロンプトを与えてLLMの文脈維持の限界を補い、そのログをNotebookLMに読ませて直前クイズを作る流れを示す。Microsoft系資格のまとめ記事は本文が各記事へのリンク集なので、内容の根拠には使えない。</p>
+      <p>セキュリティ基礎の束として、踏み台サーバーとCVSSの2本がある。踏み台サーバーの記事は、開発者をDBに入れる方法は「全部公開」「セキュリティグループで穴あけ」「踏み台1台」の3つに収束すると整理し、踏み台の本質は中継ではなく攻撃対象面（attack surface）を1点に絞り奥を外から到達不能にすることだと説明する。2026年時点ではSSM Session Managerを使い、公開IPなし・インバウンドのポート開放ゼロ・IAM認証だけで成立する踏み台を作るのが従来のSSH踏み台より安全だと述べる。CVSSの記事は、スコア0.0〜10.0と深刻度区分を示したうえで、CVSSは脆弱性そのものの深刻度を表す共通言語であって、対応優先度は自分の環境（外部到達性、認証要否、悪用コードの有無など）とセットで決めるものだと繰り返し説いている。</p>
+      <p>運用基盤とツールの束も厚い。デプロイ速度を約46%短縮した記事は、ジョブ並列化だけで全体の約39%短縮できたと示し、まずパイプライン全体のクリティカルパスを潰してから個別ジョブを詰める順序を強調する。ALBのDeregistration delayを300秒から120秒へ縮める判断は本番直近1ヶ月の最大レスポンスタイム実測値を根拠にした点が要点である。agentsviewは複数のAIコーディングエージェントのセッションログをローカルSQLiteに集約して全文検索・コスト確認・振り返りを可能にするツールで、筆者は空の隔離環境でsyncを実行して0件同期とスキーマ生成を実測している。playwright-cli attachは普段使いのChromeに認証セッションごと接続してClaude CodeのBash経由で操作する手法、PDF OxideはRust製のPDFパーサーで日本語CIDフォントの文字化け解消と速度を売りにし、ransackはRailsの検索gemをクイズ形式で整理して4.0以降のallowlist方式の安全設計まで扱う。ローカルAIの束では、ACE-Step-1.5がText2MusicとRepaintを単一モデルで実現する音楽生成モデルの内部構造を、Voiceboxが7つのTTSエンジンと音声入出力を1アプリに収めたローカル音声スタジオを、それぞれ解説する。予測市場の金融知識はオーダーブック・スプレッド・期待値・ゼロサムという構造を説き、Polymarketの上位1%が取引利益の84%を獲得したという論文を引いて情報優位のない参加は構造的に損をしやすいと述べる。</p>
+      <p>雇用論の束として、AIウォッシングの記事が読みごたえがある。AIがエンジニアの大量解雇を引き起こすという物語に反論し、企業が他のビジネス上の理由で行ったレイオフをAIで正当化している（AIウォッシング）と論じる。Block（旧Square）のJack Dorsey CEOが4000人のレイオフをAIによる新しい働き方に帰したものの、同社のデータサイエンティストがAI導入の生産性向上は最小限だったと矛盾を指摘し、75%の引き留めオファーを断って退職したという具体例を挙げる。新規コードの65%がAIで生成されても雇用は減っておらず、生産性向上は人員削減に直結しないと結論づける。</p>
+      <ul>
+        <li>資格・学習の束: 統計検定は動画倍速1周と公式問題集の反復で合格可能、準1級は本番が過去問より難しく初見問題が多い。AI学習法では「3回ごとにまとめさせる」プロンプトがLLMの文脈維持の限界を補う。</li>
+        <li>セキュリティ基礎の束: 踏み台の本質は攻撃対象面を1点に絞ること、2026年はSSMで公開IPなし・ポート開放ゼロの踏み台が推奨。CVSSは深刻度の共通言語であって対応優先度は環境とセットで決める。</li>
+        <li>運用基盤の束: デプロイ高速化はクリティカルパスを先に潰すのが最も費用対効果が高く、本番に影響する設定値は実測値で決める。agentsviewは複数エージェントのログをローカルSQLiteに集約する。</li>
+        <li>ローカルAIの束: ACE-Step-1.5は単一モデルでText2MusicとRepaintを実現、VoiceboxはElevenLabsとWisprFlowをローカルで代替する音声入出力スタジオ。</li>
+        <li>雇用論の束: AIによる大量解雇は誇張で、レイオフはAIウォッシングで正当化された別要因が駆動している。コード生成率65%でも雇用は減っていない。</li>
+      </ul>
+      <p>全文を読む価値がある記事: <a href="https://techfeed.io/entries/6a2b2177931f6b51a2595ddc?from=rss">「AIでエンジニア大量解雇」は嘘だった — コード生成率65%でも雇用が減らない本当の理由</a>（BlockのCEO発言と社内データの矛盾という具体例を伴ってAIウォッシングを論じ、要約以上の根拠を持つ議論だから）。<a href="https://qiita.com/ktdatascience/items/aad4e937dcb024c16e75?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items">【AWS】踏み台サーバーとは何か</a>（踏み台を攻撃対象面の概念で捉え直し、2026年のSSM実装まで一気通貫で説明していて応用が利くから）。<a href="https://zenn.dev/dress_code/articles/a0e4fbf842ebfd">デプロイ速度を約50%高速化した話</a>（各打ち手の削減幅を実測表で示し、本番設定を実測値で決める判断過程まで追える実践記録だから）。</p>
+    </div>
+    <ul class="article__sources">
+      <li><a href="https://techfeed.io/entries/6a2b2177931f6b51a2595ddc?from=rss">「AIでエンジニア大量解雇」は嘘だった — コード生成率65%でも雇用が減らない本当の理由</a></li>
+      <li><a href="https://qiita.com/ktdatascience/items/aad4e937dcb024c16e75?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items">【AWS】踏み台サーバーとは何か</a></li>
+      <li><a href="https://qiita.com/mo__mo/items/49f9601481aec596f545?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items">CVSS 9.8ってどれくらい危ない？脆弱性情報を読むためのものさし</a></li>
+      <li><a href="https://qiita.com/levyx/items/d2b57170744dc12e5afb?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items">統計検定2級と準1級に2ヶ月で一発合格した</a></li>
+      <li><a href="https://qiita.com/ponponmikankan/items/78464a6bad2e633e5b64?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items">最小努力と最短時間で資格受験シリーズまとめ</a></li>
+      <li><a href="https://qiita.com/yfedoseev/items/27fbb7f56b2c71e9f9d2?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items">【PDF】日本語PDFの文字化けに怒ってRustでPDFパーサーを書いた</a></li>
+      <li><a href="https://zenn.dev/komlock_lab/articles/prediction-market-finance-basics-2026">予測市場を見るために最低限知っておきたい金融知識</a></li>
+      <li><a href="https://zenn.dev/asap/articles/6a717d7a68ec02">音楽の生成・編集が可能な高性能ローカル音楽生成AI【ACE-Step-1.5】から音楽生成AIの仕組みを完全に理解する</a></li>
+      <li><a href="https://qiita.com/esukei_8876/items/4997156bbe8c304231b9?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items">試験まで1週間!?「やっべ、全然勉強してない」を救うGemini爆速学習法</a></li>
+      <li><a href="https://zenn.dev/53able/articles/6514f44e72be7f">散らばるAI開発ログを一か所へ：agentsviewで検索・コスト確認・振り返り</a></li>
+      <li><a href="https://zenn.dev/optimisuke/articles/40529cd970cbf0">ログイン済みの Chrome をそのまま Claude Code から操作する — playwright-cli attach</a></li>
+      <li><a href="https://github.com/jamiepine/voicebox">jamiepine/voicebox</a></li>
+      <li><a href="https://techfeed.io/categories/all/selections/daily/2026/6/16?from=rss">【6月16日ランキング】グーグル、AIのための知識共有フォーマット「OKF」を公開／ほか19本</a></li>
+      <li><a href="https://speakerdeck.com/ioki/kontekisutonoshi-ishe-tewoyameru-bizinesururuqu-dong-kai-fa-to-miko">コンテキストの使い捨てをやめる — ビジネスルール駆動開発と miko —</a></li>
+      <li><a href="https://speakerdeck.com/kuranuki/aishi-dai-noshi-shi-ji-yun-lun-sohutoueakai-fa-de-you-buyounidong-ku-zhi-ren-de-shou-da-nosusume">AI時代の仕事技芸論 — ソフトウェア開発で「遊ぶように働く」職人的熟達のすすめ</a></li>
+      <li><a href="https://speakerdeck.com/bake0937/how-coderabbit-changed-our-code-review-in-1-year">デフォルト運用のCodeRabbit、1年で何が変わったか / How CodeRabbit Changed Our Code Review in 1 Year</a></li>
+      <li><a href="https://speakerdeck.com/dip_tech/26xin-zu-yan-xiu-zi-liao-tddshi-zhuang-yan-xi">【26新卒研修資料】TDD実装演習</a></li>
+      <li><a href="https://speakerdeck.com/kajitack/no-code-review">コードレビューをしない選択 #でぃーぷらすトウキョウ</a></li>
+      <li><a href="https://speakerdeck.com/goccy/aishi-dai-wojian-ju-etakodokabaretuziji-ce-turunokai-fa">AI時代を見据えたコードカバレッジ計測ツールの開発</a></li>
+      <li><a href="https://speakerdeck.com/kztakasaki/shou-keru-retesutoqu-dong-kai-fa-atdd-xaiqu-dong-kai-fa-aishi-dai-noatddnoqu-rizu-mifang-wokao-eru">受け入れテスト駆動開発(ATDD)×AI駆動開発 AI時代のATDDの取り組み方を考える</a></li>
+      <li><a href="https://zenn.dev/dress_code/articles/a0e4fbf842ebfd">デプロイ速度を約50%高速化した話</a></li>
+      <li><a href="https://qiita.com/Noripy/items/9852f0c6e734c35b4190?utm_campaign=popular_items&amp;utm_medium=feed&amp;utm_source=popular_items">Railsの高度な検索機能gem `ransack` を学ぶ</a></li>
+    </ul>
+  </article>
+</section>
+
+    </main>
+
+    <footer>
+      © 2026 Read Later
+    </footer>
+  </div>
+</body>
+</html>

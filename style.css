@@ -186,6 +186,16 @@ body {
   margin: 0 0 8px;
 }
 
+.article__body a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.article__body a:hover {
+  text-decoration: none;
+}
+
 .summary {
   margin-top: 56px;
   padding: 24px 28px;

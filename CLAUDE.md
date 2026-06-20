@@ -14,7 +14,7 @@ repo の編集だけでは完了しない。定期発行は claude.ai/code/routi
 
 ## コミットメッセージを変えるとき
 
-コミットメッセージ 1 行目の `[<topic>] ...` 形式は `notify.yml` が依存する暗黙の契約。`notify.yml` は先頭の `[...]` を sed で抜いてトピック名にし、通知のクリック先 URL `OWNER.github.io/news/<topic>/` を組み立てる。`[test]` だけは特例で、ハブのトップに飛ばす。メッセージ形式を変えるなら `notify.yml` の sed も同時に直す。片方だけ触ると通知が静かに壊れる。
+コミットメッセージ 1 行目の `[<topic>] ...` 形式は `notify.yml` が依存する暗黙の契約。`notify.yml` は先頭の `[...]` を sed で抜いてトピック名にし、通知のクリック先 URL `OWNER.github.io/ecce-fomo/<topic>/` を組み立てる。`[test]` だけは特例で、ハブのトップに飛ばす。メッセージ形式を変えるなら `notify.yml` の sed も同時に直す。片方だけ触ると通知が静かに壊れる。
 
 ## 通知を変える・テストするとき
 
@@ -28,4 +28,4 @@ unsave は破壊的操作で、Feedly 側の状態を変える。`news-publish` 
 
 ## デプロイ（GitHub Pages）
 
-配信は main ブランチの root から `OWNER.github.io/news/<topic>/`。Pages の有効化・公開ブランチ・パスは repo 設定側（repo 外）にあり、main に push された内容がそのまま公開される。新トピックを `<topic>/index.html` に置けば `/news/<topic>/` で配信される前提は、この root 配信設定に依存している。
+配信は main ブランチの root から `OWNER.github.io/ecce-fomo/<topic>/`。Pages の有効化・公開ブランチ・パスは repo 設定側（repo 外）にあり、main に push された内容がそのまま公開される。新トピックを `<topic>/index.html` に置けば `/ecce-fomo/<topic>/` で配信される前提は、この root 配信設定に依存している。

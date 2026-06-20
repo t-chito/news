@@ -20,9 +20,9 @@ jobs:
           SUBJECT=$(echo "$MSG" | head -n 1)
           TOPIC_NAME=$(echo "$SUBJECT" | sed -n 's/^\[\([^]]*\)\].*/\1/p')
           if [ -n "$TOPIC_NAME" ] && [ "$TOPIC_NAME" != "test" ]; then
-            CLICK_URL="https://${OWNER}.github.io/news/${TOPIC_NAME}/"
+            CLICK_URL="https://${OWNER}.github.io/ecce-fomo/${TOPIC_NAME}/"
           else
-            CLICK_URL="https://${OWNER}.github.io/news/"
+            CLICK_URL="https://${OWNER}.github.io/ecce-fomo/"
           fi
           curl -X POST \
             -H "Title: $SUBJECT" \

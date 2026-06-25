@@ -3,7 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>プロダクトウォッチ — 2026年6月18日</title>
+<title>プロダクトウォッチ — 2026年6月25日 | Ecce Fomo</title>
+<meta name="description" content="Consummatum est.">
+<link rel="icon" href="../icon.png">
+<link rel="apple-touch-icon" href="../icon.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Ecce Fomo">
+<meta property="og:title" content="プロダクトウォッチ — 2026年6月25日">
+<meta property="og:description" content="Consummatum est.">
+<meta property="og:image" content="https://t-chito.github.io/ecce-fomo/icon.png">
+<meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@400;500;700&display=swap" rel="stylesheet">
@@ -14,181 +23,129 @@
     <header class="masthead">
       <h1 class="masthead__title"><a href="../">プロダクトウォッチ</a></h1>
       <div class="masthead__meta">
-        <span>2026年6月18日（木）</span>
+        <span>2026年6月25日（木）</span>
         <span>過去1週間</span>
       </div>
     </header>
 
     <main class="content">
       <section class="summary">
-        <h2 class="summary__title">まとめ</h2>
-        <p>今週の最大の出来事は、先週ローンチしたばかりの Claude Fable 5 / Mythos 5 が米政府の輸出管理指令を受けて全面停止になったこと（6/13）。Claude Code を含む全プロダクトの新規セッションは Opus 4.8 など他モデルにフォールバックする運用に戻り、Cognition も Devin から Fable 5 を外した。プロダクト面では Claude Code が Claude Design との双方向同期（<code>/design-sync</code>）を投入し、Managed Agents がスケジュール実行・Vault 認証情報・各社サンドボックス対応で本番投入に近づいた。Anthropic は「Claude Code が実際に何に使われているか」を追う経済インデックスを公開。Claude Code 本体は 2.1.176〜2.1.181 を週内で連続リリースした。他陣営では OpenAI Codex がレートリミットのリセット貯蓄・Computer Use・プラグインマーケットを、xAI が Grok Build のプラグインマーケットを出している。</p>
-      </section>
+  <h2 class="summary__title">まとめ</h2>
+  <p>今週の主役は <strong>Claude Tag</strong>（6/23 発表）。Anthropic は「Claude Code をマルチプレイヤー・非同期・能動的にしたもの」と位置づけ、Slack のチャンネルに Claude を 1 人のチームメンバーとして常駐させる。鍵は <strong>エージェントアイデンティティ</strong>——従来の「ユーザーになりすまして動く」のではなく、Claude が自分自身の GitHub・Linear・サービスアカウントを持って動く新しいアクセスモデルだ。Enterprise / Team プラン向けにベータ提供で、Anthropic 社内では「プロダクトチームのコードの 65% を Claude が書いている」と公表した。Claude Code 本体も 2.1.186〜2.1.191 を連続リリースし、<code>/rewind</code>・<code>claude mcp login</code>・<code>sandbox.credentials</code> など実務寄りの機能が入った。他陣営では、Notion が Claude と Cursor を共有タスクボードの「同僚」として置く External Agents を投入、Devin が PR レビュー前の自動 QA と Kimi K2.7 / GLM 5.2 の無料開放を実施、OpenAI は自社初の AI チップ Jalapeño と GPT-5.5 Instant の刷新を出した。エージェントを「個人の道具」から「チームの一員」へ押し上げる動きが各社で同時に進んでいる。</p>
+</section>
 
-      <section class="topic">
-        <h2 class="topic__title">Claude Code</h2>
+<section class="topic">
+  <h2 class="topic__title">Claude Code</h2>
 
-        <article class="article">
-          <h3 class="article__headline">Fable 5 が全面停止——コーディングエージェントが回すモデルが Opus 4.8 に逆戻り</h3>
-          <div class="article__body">
-            <p>先週「今週最大のニュース」として取り上げた Claude Fable 5 が、わずか数日で使えなくなった。6 月 13 日、Anthropic は「米政府が国家安全保障上の権限を根拠に、Fable 5 および Mythos 5 への外国籍ユーザー（米国内外を問わず）によるアクセスをすべて停止する輸出管理指令を出した」と公表。これを受けて Claude Devs は「米政府の指令の結果として、全ユーザー向けに Claude Fable 5 へのアクセスを停止する。他の Claude モデルは引き続き利用できる」と告知した。</p>
-            <p>プロダクト視点で重要なのは、これが単なるモデルの出し入れではなく、自分が日々回しているエージェントの中身が変わるという点だ。Claude のプロダクト全体で、新規セッションは選択中のモデル（実質 Opus 4.8 など）で走るようになった。Anthropic は影響緩和として 5 時間・週間のレートリミットを全ユーザーでリセットしている。先週 Fable 5 を前提に組まれていたワークフローは、いったん Opus 4.8 ベースで考え直す必要がある。</p>
-            <p>影響は Anthropic 外にも及んだ。Cognition は「Anthropic の発表と米政府指令を受け、Devin など自社プロダクトから Claude Fable 5 を外す。Opus 4.8 と GPT-5.5 を含む他モデルは引き続き利用可能」と即日アナウンス。Anthropic 自身が 6 月 14 日に SF で開催した Claude Build Day も、当初予定の Fable 5 ではなく Opus 4.8 上で実施された。</p>
-          </div>
-          <ul class="article__sources">
-            <li><a href="https://x.com/AnthropicAI/status/2065597531644743999">@AnthropicAI: 米政府の輸出管理指令により Fable 5 / Mythos 5 へのアクセスを停止</a></li>
-            <li><a href="https://x.com/ClaudeDevs/status/2065597942602531163">@ClaudeDevs: 全ユーザー向けに Claude Fable 5 へのアクセスを停止</a></li>
-            <li><a href="https://x.com/ClaudeDevs/status/2065621176735646006">@ClaudeDevs: 全ユーザーの 5 時間・週間レートリミットをリセット</a></li>
-            <li><a href="https://x.com/cognition/status/2065609115939062197">@cognition: Cognition 製品から Claude Fable 5 を外す</a></li>
-            <li><a href="https://x.com/ClaudeDevs/status/2065647770468487600">@ClaudeDevs: Build Day は Opus 4.8 上で実施</a></li>
-          </ul>
-        </article>
+  <article class="article">
+    <h3 class="article__headline">Claude Tag 登場——Claude Code が「マルチプレイヤー・非同期」になり、Slack のチームに常駐する</h3>
+    <div class="article__body">
+      <p>6 月 23 日、Anthropic は <strong>Claude Tag</strong> を発表した。Slack のチャンネルに Claude が参加し、選んだチャンネルとツールにアクセスできる「チームメンバー」として働く。スレッドで Claude をメンションしてタスクを渡せば、Claude が作業を段階に分解し、与えられたツールを使って進め、スレッドに成果を返す。PR の作成・マージ、データ分析、インシデント対応まで担う。Anthropic 自身は「Claude Tag は Claude Code の進化形。より能動的で、チーム全体で使えるように作られている」と説明し、「Claude Code は今もソロの同期作業には最速。Claude Tag はそれをマルチプレイヤー・非同期・能動的にしたもの」と両者を整理している。</p>
+      <p>プロダクト視点で重要なのは、これが「個人の手元で回すエージェント」から「チームに常駐するエージェント」への転換である点だ。チャンネルには全員と対話する 1 つの Claude が居り、チャンネルを追いながら文脈を蓄積するので、同僚が途中から引き継いでも一から説明し直す必要がない。アンビエント動作をオンにすれば、静まったスレッドを能動的にフォローアップし、関連する変化を横断的に拾い上げる。Anthropic は具体的なユースケースとして、インシデント対応（ページ着信→グラフ取得・デプロイ差分・根本原因の特定→修正 PR→メトリクス復旧の確認）、バグトリアージ（フィードバックチャンネルから自動でレポートを拾い、再現・git blame・修正・所有者タグ付け）、A/B テストのガードレール監視、ブロックされた依存作業の待ち受けなどを挙げている。</p>
+      <p>注目を集めたのが、その裏側にある <strong>「エージェントアイデンティティ（agent identity）」</strong> という考え方だ。複数人が居るチャンネルで Claude が動くとき、誰の権限を借りるべきか——という問いに対し、Claude Tag は「Claude は自分自身として振る舞う」と答える。チャンネルでは Claude が自分の Linear アカウント・GitHub アカウント・データウェアハウスのサービスアカウントを持ち、各システムのログに Claude 名義で行動が記録される。監査すべき ID は 1 つで、一度失効させれば全連携でアクセスが切れる。一方 DM では従来どおり「あなたとして」動く。管理者がチャンネルごとに到達範囲をスコープできる設計だ。国内エンジニアからも「個人アカウント連携ではなくチャンネルに紐付いた 1 つの bot を従量課金でみんなで使う形」「スレッドでメンションしなくても会話が続けられるのが歓喜」といった反応が出ており、従来の Slack 連携から一段進んだ体験になっている。</p>
+      <p>Claude Tag は Claude Enterprise / Team プラン向けに Slack 上でベータ提供が始まった。Anthropic は「Claude Code チームは今年ずっと社内で Claude Tag を使って開発してきた。今ではプロダクトチームのコードの 65%——Claude Tag 自体を作ったコードの大半を含む——を Claude が書いている」としており、自社のドッグフーディングの規模感も示した。</p>
+    </div>
+    <ul class="article__sources">
+      <li><a href="https://x.com/claudeai/status/2069468693017268244">@claudeai: Introducing Claude Tag — Slack でチームメンバーとして働く Claude</a></li>
+      <li><a href="https://x.com/claudeai/status/2069468694552461375">@claudeai: Claude Tag は Claude Code の進化形、社内コードの 65% を生成</a></li>
+      <li><a href="https://x.com/ClaudeDevs/status/2069468913264644419">@ClaudeDevs: Claude Code はソロ同期、Claude Tag はマルチプレイヤー・非同期・能動的</a></li>
+      <li><a href="https://x.com/ClaudeDevs/status/2069895377080443271">@ClaudeDevs: 「エージェントアイデンティティ」——Claude が自分自身の認証情報で動く</a></li>
+      <li><a href="https://x.com/claudeai/status/2069468701548531895">@claudeai: Enterprise / Team プラン向けに Slack でベータ提供</a></li>
+      <li><a href="https://x.com/yoshiko_pg/status/2069547964276920811">@yoshiko_pg: スレッドでメンションしなくても会話が続けられる</a></li>
+      <li><a href="https://x.com/oikon48/status/2069831789741219927">@oikon48: 「エージェントアイデンティティ」という概念が登場しているのが面白い</a></li>
+    </ul>
+  </article>
 
-        <article class="article">
-          <h3 class="article__headline">Claude Design と Claude Code が双方向同期——<code>/design-sync</code> でデザインシステムを行き来</h3>
-          <div class="article__body">
-            <p>6 月 17 日、Claude Design と Claude Code が双方向に同期するようになった。Claude Code 側で <code>/design-sync</code> を実行すると、自分のデザインシステムをリポジトリに取り込み、実際のコンポーネントに対してビルドできる。逆に Claude Code で作ったものを Claude Design に押し戻し、キャンバス上で編集を続けることもできる。デザインの受け渡しが「画像を見ながら作り直す」ではなく、実コンポーネント単位で往復する形になった。</p>
-            <p>Claude Design 自体もこのタイミングで強化された。リポジトリ・デザインファイル・コードベースからデザインシステムを取り込み、自分の実コンポーネントでビルドし、出力を見せる前にデザインシステムへの準拠を自己チェックする。キャンバス上でドラッグ・リサイズ・整列ができる新レイアウト操作や、PDF・PowerPoint へのエクスポートも加わった。Claude Design は全有料プラン（web・デスクトップ）でベータ提供されている。</p>
-          </div>
-          <ul class="article__sources">
-            <li><a href="https://x.com/ClaudeDevs/status/2067391951725629941">@ClaudeDevs: Claude Code and Claude Design now sync both ways（/design-sync）</a></li>
-            <li><a href="https://x.com/claudeai/status/2067325887909884315">@claudeai: New in Claude Design — syncs with Claude Code</a></li>
-            <li><a href="https://x.com/claudeai/status/2067325894268428560">@claudeai: Claude Design is in beta on all paid plans</a></li>
-          </ul>
-        </article>
+  <article class="article">
+    <h3 class="article__headline">2.1.186〜2.1.191 を連続リリース——<code>/rewind</code>・<code>claude mcp login</code>・<code>sandbox.credentials</code></h3>
+    <div class="article__body">
+      <p>Claude Code 本体は今週も高頻度でリリースが続いた。実務に効く変更を拾うと、まず 2.1.186 で <code>claude mcp login &lt;name&gt;</code> / <code>claude mcp logout &lt;name&gt;</code> が追加され、インタラクティブな <code>/mcp</code> メニューを開かずに CLI から MCP サーバーを認証できるようになった（<code>--no-browser</code> で SSH 越しの認証にも対応）。<code>!</code> から始まるシェルコマンドの出力に対して Claude が自動で応答するようになり（<code>respondToBashCommands</code> で従来挙動に戻せる）、<code>/plugin</code> に Skills セクションも加わった。</p>
+      <p>2.1.187 はセキュリティと組織運用まわりが中心。<code>sandbox.credentials</code> 設定で、サンドボックス内のコマンドが認証情報ファイルやシークレット環境変数を読み取れないようにブロックできるようになった。さらに <strong>組織が設定したモデル制限</strong> がモデルピッカー・<code>--model</code>・<code>/model</code>・<code>ANTHROPIC_MODEL</code> すべてに反映され、制限されたモデルを選ぶと「組織の設定で制限されている」と表示される。リモート MCP のツール呼び出しが 5 分でアボートするようになり、無限ハングも解消した。2.1.191 では <code>/rewind</code> が入り、<code>/clear</code> を実行する前の会話状態から再開して文脈を復元できるように。タスクパネルから止めたバックグラウンドエージェントが復活しなくなり「停止」が確実になった。リリースの一次情報は GitHub Releases（<code>anthropics/claude-code</code>）を参照したい。</p>
+    </div>
+    <ul class="article__sources">
+      <li><a href="https://x.com/ClaudeCodeLog/status/2069162080393973775">@ClaudeCodeLog: 2.1.186 — claude mcp login/logout、! コマンドの自動応答</a></li>
+      <li><a href="https://x.com/ClaudeCodeLog/status/2069531604951687542">@ClaudeCodeLog: 2.1.187 — sandbox.credentials・組織のモデル制限・リモート MCP 5 分アボート</a></li>
+      <li><a href="https://x.com/ClaudeCodeLog/status/2069905354666684535">@ClaudeCodeLog: 2.1.191 — /rewind、停止したバックグラウンドエージェントが復活しない</a></li>
+      <li><a href="https://github.com/anthropics/claude-code/releases">GitHub Releases: anthropics/claude-code</a></li>
+    </ul>
+  </article>
+</section>
 
-        <article class="article">
-          <h3 class="article__headline">Managed Agents が本番運用へ——スケジュール実行・Vault 認証情報・各社サンドボックス対応</h3>
-          <div class="article__body">
-            <p>Claude Managed Agents が、実運用に必要なピースを相次いで埋めた。6 月 11 日にはスケジュール実行（タスクを定期実行）と、Vault の認証情報を環境変数として CLI に渡す環境変数クレデンシャルが追加された。Claude 自身はシークレットにアクセスせず、認証情報は安全に注入される設計で、環境変数で認証する CLI・SDK・直接 API 呼び出しをエージェントから安全に使えるようになる。</p>
-            <p>翌 12 日には、自分の管理下のサンドボックス（自前インフラや任意プロバイダ）でエージェントを動かすためのガイドが拡充され、Blaxel・E2B・Google Cloud・Namespace・Superserve に対応した。さらに 6 月 16 日には Applied AI チームが、認証情報・サンドボックス化・可観測性といった「エージェントを本番に乗せるときに必ずぶつかる課題」とその解き方をまとめたブログを公開している。先週ベータとして発表された要素が、実際に使える形へ整いつつある。</p>
-          </div>
-          <ul class="article__sources">
-            <li><a href="https://x.com/ClaudeDevs/status/2065080005328249086">@ClaudeDevs: Scheduled deployments と環境変数クレデンシャルを追加</a></li>
-            <li><a href="https://x.com/ClaudeDevs/status/2065494480837583297">@ClaudeDevs: Blaxel・E2B・Google Cloud・Namespace・Superserve 向けサンドボックスガイド</a></li>
-            <li><a href="https://x.com/ClaudeDevs/status/2066926619714007115">@ClaudeDevs: Applied AI チームによる本番投入のブログ</a></li>
-          </ul>
-        </article>
+<section class="topic">
+  <h2 class="topic__title">「エージェントが同僚になる」——各社が共有ワークスペースへ</h2>
 
-        <article class="article">
-          <h3 class="article__headline">Anthropic Economic Index——「Claude Code が実際に何に使われているか」をデータで公開</h3>
-          <div class="article__body">
-            <p>6 月 16 日、Anthropic が Claude Code の利用実態を追う経済インデックスのフレームワークを公開した。プライバシー保護分析で 2025 年 10 月〜2026 年 4 月の 40 万セッションを分類した結果、半分以上がコードの作成・修正、約 5 件に 1 件が OS・インフラ操作だった。タスクの金銭的価値はフリーランス市場での相場に換算して期間中に上昇しており、Claude Code 上の平均タスクが「より価値の高い仕事」へシフトしていることが示された。</p>
-            <p>使い手の専門性についても示唆がある。質問の仕方や語彙から判定したドメインエキスパートは成功率が高い一方、中級者と専門家の差は意外に小さく、「ある程度の習熟があれば十分」という結果になった。検証可能な完了証跡（コミットされたコードなど）を必須とする最も厳しい成功基準でも、各職種はソフトウェアエンジニアリングと 7 ポイント以内に収まっていた。プロダクトを「誰がどんな仕事に使っているか」を測る土台として、今後 Anthropic Economic Index に取り込まれていく。</p>
-          </div>
-          <ul class="article__sources">
-            <li><a href="https://x.com/AnthropicAI/status/2066969532380721386">@AnthropicAI: Claude Code をスケールで追う経済リサーチのフレームワーク</a></li>
-            <li><a href="https://x.com/AnthropicAI/status/2066969536423985295">@AnthropicAI: 平均タスクの金銭的価値が上昇</a></li>
-            <li><a href="https://x.com/AnthropicAI/status/2066969538193920307">@AnthropicAI: 検証可能な成功率は各職種がソフトウェアエンジニアと 7pt 以内</a></li>
-          </ul>
-        </article>
+  <article class="article">
+    <h3 class="article__headline">Notion External Agents——Claude と Cursor を共有タスクボードの「同僚」として置く</h3>
+    <div class="article__body">
+      <p>6 月 24 日、Notion が <strong>External Agents</strong> を発表し、Claude と Cursor を Notion 内に外部エージェントとして招けるようにした。チームで共有するボードからタスクを割り当て、同僚のように <code>@</code> メンションして走らせ、実行の様子を見られる。Claude エージェントはデータ分析・コーディング・スプレッドシートやスライド作成など用途別に作って共有ボードに並べ、ワークフローとして連鎖させたり互いにタスクを引き継いだりできる。Cursor 側はバグ修正・機能開発・コードレビューといった開発ライフサイクル向けで、割り当てると Cursor の Cloud Agent がコードベースを読んで PR を開き、その実行は Notion 上で可視・レビュー可能なまま残る。Notion で始めた作業を Cursor 側で続ける往復もできる。</p>
+      <p>Claude Tag が「Slack に Claude が常駐する」方向なら、Notion は「自分のワークスペースに各社のエージェントを同僚として迎える」方向だ。Anthropic・OpenAI（Codex）・Cursor といった競合のエージェントを横並びでボードに載せる立場を取った点が、プラットフォームとしての Notion らしい動きと言える。</p>
+    </div>
+    <ul class="article__sources">
+      <li><a href="https://x.com/NotionHQ/status/2069816393395012009">@NotionHQ: Introducing External Agents in Notion — Claude + Cursor</a></li>
+      <li><a href="https://x.com/NotionHQ/status/2069820711238000821">@NotionHQ: Meet Claude agents in Notion</a></li>
+      <li><a href="https://x.com/NotionHQ/status/2069825352155734330">@NotionHQ: Meet Cursor in Notion — タスクボードの新しい同僚</a></li>
+    </ul>
+  </article>
 
-        <article class="article">
-          <h3 class="article__headline">2.1.176〜2.1.181 を連続リリース——ripgrep 推奨・粒度の細かい権限ルール・<code>/config key=value</code></h3>
-          <div class="article__body">
-            <p>Claude Code 本体は今週も高頻度でリリースが続いた。注目したい変更を拾うと、Grep が ripgrep ベースを推奨するようになり、コード検索がより速く一貫した挙動に（2.1.176／2.1.178）。権限ルールが <code>Tool(param:value)</code> 形式とワイルドカード <code>*</code> を受け付けるようになり、特定の引数値だけをブロックする細かい制御ができるようになった（2.1.178）。また <code>availableModels</code> がブロック済みモデルへ迂回する環境変数エイリアスを弾くようになっており、これは今回の Fable 5 停止のような「使えるモデルの差し替え」とも噛み合う変更だ。</p>
-            <p>安定性の修正も入っている。ストリーミングが途中で切れた際に部分応答を保持し、スピナーが "running tool" のまま固まる問題を解消（2.1.179）。サンドボックスの <code>denyRead</code>/<code>allowRead</code> グロブ処理がパスを過剰に膨らませないよう改善された。さらに 2.1.181 では <code>/config key=value</code> で任意設定を直接書き換えられるようになり、39 件の CLI 変更が入った大型リリースとなっている。リリースの一次情報は GitHub Releases（<code>anthropics/claude-code</code>）を参照したい。</p>
-          </div>
-          <ul class="article__sources">
-            <li><a href="https://x.com/ClaudeCodeLog/status/2066638360014102825">@ClaudeCodeLog: 2.1.178 — ripgrep 推奨・Tool(param:value) 権限ルール</a></li>
-            <li><a href="https://x.com/ClaudeCodeLog/status/2066982474467434829">@ClaudeCodeLog: 2.1.179 — 部分応答の保持・サンドボックス glob 改善</a></li>
-            <li><a href="https://x.com/ClaudeCodeLog/status/2067372583733916098">@ClaudeCodeLog: 2.1.181 — /config key=value、39 件の CLI 変更</a></li>
-            <li><a href="https://github.com/anthropics/claude-code/releases">GitHub Releases: anthropics/claude-code</a></li>
-          </ul>
-        </article>
+  <article class="article">
+    <h3 class="article__headline">Devin が「レビュー前に自分でテスト」を実装、Kimi K2.7 / GLM 5.2 も無料開放</h3>
+    <div class="article__body">
+      <p>Cognition の Devin に、PR をレビューに回す前に自分で動作確認する機能が入った。Devin がテスト計画を立て、ユーザーがそれを承認すると、ステップごとの QA を視覚的なチェックリスト付きの画面録画で返す。「エージェントが書いて投げっぱなし」ではなく、人間のレビュー前に検証証跡を用意する方向で、レビュー負荷を下げにいく動きだ。</p>
+      <p>あわせて Devin Desktop / CLI で <strong>Kimi K2.7 Code</strong> と <strong>GLM 5.2</strong> が利用可能になり、Pro / Max / Teams ユーザーは 7 月 5 日まで両モデルを無料で試せる。Cognition 独自の実務ベンチ FrontierCode Extended では GLM 5.2 が 43.0%、Kimi K2.7 Code が 39.5% で、GPT-5.5（44.8%）に近く Claude Opus 4.8（51.8%）を追う「競合ティア」に位置づけられている。オープンウェイト勢を実コーディングエージェントから無料で触らせ、ユーザーに乗り換え候補として体験させる狙いが見える。</p>
+    </div>
+    <ul class="article__sources">
+      <li><a href="https://x.com/cognition/status/2069825407856390377">@cognition: Devin はレビュー前に自分でテストし、画面録画の QA チェックリストを返す</a></li>
+      <li><a href="https://x.com/devindesktop/status/2069918091245699456">@devindesktop: Kimi K2.7 Code と GLM 5.2 が Devin Desktop / CLI で利用可能（7/5 まで無料）</a></li>
+      <li><a href="https://x.com/devindesktop/status/2069918093233869278">@devindesktop: FrontierCode Extended のスコア（GLM 43.0% / Kimi 39.5% / GPT-5.5 44.8% / Opus 4.8 51.8%）</a></li>
+    </ul>
+  </article>
+</section>
 
-        <article class="article">
-          <h3 class="article__headline">Claude Build Day（SF）——300 人が 1 日で作ったものたち</h3>
-          <div class="article__body">
-            <p>6 月 14 日に SF で開催された Claude Build Day には 300 人のビルダーが集まり、1 日で動くものを作り上げた。優勝は Tekton（唐代建築を史料に紐づけて 3D 再構成するプラットフォーム）、2 位は Sim Francisco（国勢調査をシードに SF の人口をデジタルツイン化し、合成都市を数秒でポーリングして実世界の結果を予測）、3 位は Custom Universe（スマホ 1 枚の写真からフォトリアルで編集可能な 3D シーンを生成）。前述のとおり当日は Fable 5 が使えず Opus 4.8 上での開催となったが、それでも 1 日でこの完成度のものが出てくる、という事例として参考になる。</p>
-          </div>
-          <ul class="article__sources">
-            <li><a href="https://x.com/ClaudeDevs/status/2067298098553254211">@ClaudeDevs: Claude Build Day の受賞デモまとめ</a></li>
-            <li><a href="https://x.com/ClaudeDevs/status/2067298100662980608">@ClaudeDevs: 1st Place — Tekton</a></li>
-          </ul>
-        </article>
-      </section>
+<section class="topic">
+  <h2 class="topic__title">その他プロダクトの動向</h2>
 
-      <section class="topic">
-        <h2 class="topic__title">OpenAI Codex の動き</h2>
+  <article class="article">
+    <h3 class="article__headline">OpenAI が自社初の AI チップ Jalapeño を発表、GPT-5.5 Instant と Codex CLI も更新</h3>
+    <div class="article__body">
+      <p>6 月 24 日、OpenAI が自社で設計・製造した初の AI チップ <strong>Jalapeño</strong> を発表した。Broadcom と組んで量産まで持ち込んだ LLM 推論専用チップで、ChatGPT・Codex・API・今後のエージェント製品のワークロードを支える。Greg Brockman は「9 か月かけて推論用にゼロから設計し、自社モデルで設計を加速した。ワットあたり性能が素晴らしい」とアピールした。プロダクトの裏側を支える基盤として、Codex を含むエージェント群の供給能力・コストに効いてくる話だ。</p>
+      <p>同日、最も使われているモデル <strong>GPT-5.5 Instant</strong> の新バージョンも投入された。質問の意図をより正確に汲み、複雑な制約も安定して扱えるようになったという。Codex CLI も 0.142.0 で <code>/usage</code> のクレジット引き換え（リトライ付き）・<code>/plugins</code> のセクション分け（Curated / Workspace / Shared）・サーバー承認 URL 付きのインデックス済み Web 検索を追加、0.142.1 では Windows のシステムプロキシ認証対応（PAC / WPAD 自動検出）を入れている。</p>
+    </div>
+    <ul class="article__sources">
+      <li><a href="https://x.com/OpenAI/status/2069770172802773292">@OpenAI: 自社初の AI チップ Jalapeño を発表</a></li>
+      <li><a href="https://x.com/gdb/status/2069809298612621629">@gdb: Jalapeño は LLM 推論向けに 9 か月かけてゼロから設計</a></li>
+      <li><a href="https://x.com/OpenAI/status/2069843083701915755">@OpenAI: GPT-5.5 Instant の新バージョン</a></li>
+      <li><a href="https://x.com/Codex_Changelog/status/2069187996683780129">@Codex_Changelog: Codex CLI 0.142.0（/usage・/plugins セクション・インデックス済み Web 検索）</a></li>
+    </ul>
+  </article>
 
-        <article class="article">
-          <h3 class="article__headline">レートリミットのリセットを「貯めて後で使う」——Computer Use・プラグインマーケットも</h3>
-          <div class="article__body">
-            <p>Codex まわりは機能追加が活発だった。まず 6 月 12 日、レートリミットのリセットを自分の好きなタイミングで使えるよう貯蓄できる機能が Go/Plus/Pro/Business 向けにロールアウト（最初の 1 回は無料）。「みんなが自分のタイミングでリセットを使いたがるから出した」という告知文が国内エンジニアにも面白がられた。2 週間限定で、友人を招待すると双方にリセットが貯まる紹介キャンペーンも走っている。レートリミットの硬直性に対するユーザーの不満に、運用面で手当てした形だ。</p>
-            <p>機能面では Codex アプリに macOS / Windows での Computer Use、バックグラウンドのブラウザ操作向け Chrome 拡張、ワークフローや技術スタック・規約を覚える Memories が追加された。Codex CLI も 0.140.0 で <code>/usage</code>（日次・週次・累計のトークン統計）、Claude Code からの <code>/import</code>（設定・config・チャットの取り込み）、<code>@</code> によるファイル・プラグイン・スキルの統合メンションを追加。0.141.0 ではリモート実行向けの E2E 暗号化 Noise リレーとプラグインマーケットプレイスが入った。Claude Code からの移行導線（<code>/import</code>）を公式に用意してきた点は、乗り換えを狙う動きとして注目しておきたい。</p>
-          </div>
-          <ul class="article__sources">
-            <li><a href="https://x.com/OpenAI/status/2065225362544726371">@OpenAI: レートリミットのリセットを貯めて後で使えるように</a></li>
-            <li><a href="https://x.com/Codex_Changelog/status/2066922537162784838">@Codex_Changelog: Codex アプリに Computer Use・Chrome 拡張・Memories</a></li>
-            <li><a href="https://x.com/Codex_Changelog/status/2066653211348406492">@Codex_Changelog: Codex CLI 0.140.0（/usage・Claude Code からの /import）</a></li>
-            <li><a href="https://x.com/Codex_Changelog/status/2067547762762096975">@Codex_Changelog: Codex CLI 0.141.0（暗号化リレー・プラグインマーケット）</a></li>
-          </ul>
-        </article>
+  <article class="article">
+    <h3 class="article__headline">Grok Build のプラグインマーケットが拡充——MongoDB・Firecrawl が追加</h3>
+    <div class="article__body">
+      <p>先週ベータ公開された xAI の Grok Build プラグインマーケットプレイスに、新しいプラグインが加わった。公式 <strong>MongoDB</strong> プラグインでデータのクエリ・インデックス最適化・DB 管理をターミナルから行え、<strong>Firecrawl</strong> プラグインで Web スクレイピングを組み込める。コーディングエージェント各社が「拡張・プラグインのマーケット」を競って育てる流れの中で、Grok も対応サービスを着実に増やしている。</p>
+    </div>
+    <ul class="article__sources">
+      <li><a href="https://x.com/xai/status/2069809728088350789">@xai: Grok Build の公式 MongoDB プラグイン</a></li>
+      <li><a href="https://x.com/xai/status/2069536627349962987">@xai: Grok Build Plugin Marketplace に Firecrawl プラグイン</a></li>
+    </ul>
+  </article>
+</section>
 
-        <article class="article">
-          <h3 class="article__headline">OpenAI が Ona を買収——「ラップトップを閉じても走り続ける」実行基盤を Codex に</h3>
-          <div class="article__body">
-            <p>6 月 11 日、OpenAI が Ona（@ona_hq）の買収合意を発表した。同社のセキュアなクラウド実行技術により、Codex はラップトップを閉じていても長時間タスクを継続でき、より多くの組織が本番でエージェントを安全に運用できるようになるとしている。Codex の「アプリでの Computer Use」「暗号化リモートリレー」といった今週の追加と合わせて、ローカル端末に縛られないクラウド実行へ寄せていく方向性がはっきり見える。</p>
-          </div>
-          <ul class="article__sources">
-            <li><a href="https://x.com/OpenAINewsroom/status/2065088002335158753">@OpenAINewsroom: Ona の買収合意——セキュアなクラウド実行技術</a></li>
-          </ul>
-        </article>
-      </section>
+<section class="topic">
+  <h2 class="topic__title">コミュニティから</h2>
 
-      <section class="topic">
-        <h2 class="topic__title">その他プロダクトの動向</h2>
-
-        <article class="article">
-          <h3 class="article__headline">Grok Build がプラグインマーケットを開設——ターミナルから Vercel・Sentry・MongoDB 等を直叩き</h3>
-          <div class="article__body">
-            <p>xAI のコーディングエージェント Grok Build が、6 月 11 日にプラグインマーケットプレイスをベータ公開した。ターミナルから Vercel・Sentry・MongoDB・Cloudflare・Chrome DevTools のプラグインを使え、たとえば Sentry プラグインを入れればエージェントにエラーの発見・修正、スタックトレース解析、アラートのトリアージを頼める。Vercel プラグインなら本番デプロイやサンドボックス立ち上げ、Shadcn でのアプリ構築まで一プロンプトで通る。コーディングエージェント各社が「プラグイン／拡張マーケット」を競って整備する流れに、Grok も乗ってきた。</p>
-            <p>周辺では、SuperGrok / X Premium のサブスクで Warp 内から Grok Build モデルを使えるようになり（6/15）、Grok 4.3 が Amazon Bedrock 経由で利用可能に（6/17）。エージェント本体を各開発環境・クラウドに載せていく動きが続いている。</p>
-          </div>
-          <ul class="article__sources">
-            <li><a href="https://x.com/xai/status/2065099299541893577">@xai: Grok Build Plugin Marketplace がベータ公開</a></li>
-            <li><a href="https://x.com/xai/status/2065168019891073260">@xai: Sentry プラグインでエラーの発見・修正・トリアージ</a></li>
-            <li><a href="https://x.com/xai/status/2066625790704521699">@xai: Warp 内から Grok Build モデルを利用可能に</a></li>
-            <li><a href="https://x.com/xai/status/2067263498359624012">@xai: Grok 4.3 が Amazon Bedrock で利用可能に</a></li>
-          </ul>
-        </article>
-
-        <article class="article">
-          <h3 class="article__headline">NotebookLM の強化版が AI Ultra 向けに 100% 展開</h3>
-          <div class="article__body">
-            <p>先週「Gemini 3.5 + Antigravity でアジェンティックに」と紹介した NotebookLM の強化版が、6 月 16 日に Google AI Ultra 加入者へグローバルで 100% ロールアウト完了した。チャート・画像・スプレッドシートなど出力フォーマットが広がっており、段階展開から「全 Ultra ユーザーが使える」状態になった点が今週の進展。リサーチ用途のプロダクトとして、一段使える範囲が広がった。</p>
-          </div>
-          <ul class="article__sources">
-            <li><a href="https://x.com/NotebookLM/status/2066981609258229764">@NotebookLM: 強化版 NotebookLM が AI Ultra へ 100% ロールアウト</a></li>
-          </ul>
-        </article>
-
-        <article class="article">
-          <h3 class="article__headline">Notion が GLM 5.2 を搭載——オープンウェイトモデルを長時間タスク用に</h3>
-          <div class="article__body">
-            <p>6 月 16 日、Notion が新しいオープンウェイトモデル GLM 5.2 を利用可能にした。長時間（long-horizon）タスク向けに作られたモデルで、Baseten 経由で配信される。汎用ワークスペース系プロダクトが、用途に応じてオープンウェイトモデルを差し込んでくる事例として押さえておきたい。</p>
-          </div>
-          <ul class="article__sources">
-            <li><a href="https://x.com/NotionHQ/status/2066963258985320550">@NotionHQ: GLM 5.2 が Notion で利用可能に</a></li>
-          </ul>
-        </article>
-      </section>
-
-      <section class="topic">
-        <h2 class="topic__title">コミュニティから</h2>
-
-        <article class="article">
-          <h3 class="article__headline">「6 か月前がもう思い出せない」——ソフトウェアエンジニアリングの変化を実感する声</h3>
-          <div class="article__body">
-            <p>OpenAI の Greg Brockman（@gdb）が「ソフトウェアエンジニアリングは今や全く別物だ。半年前がどんなだったかすら思い出せない」と投稿し、30 万を超えるインプレッションを集めた。エージェント前提の開発が当たり前になりつつある肌感覚が、現場のエンジニアの間でも共有されている。一方で @t_wada は「このままトークン使用料が高くなり続けると、また（内製から外注へ揺り戻すような）パターンになりそう」と、コストの観点から冷静な指摘も。Fable 5 停止で利用モデルが揺れた今週、ツールへの依存とコスト・可用性のバランスを意識させる週でもあった。</p>
-          </div>
-          <ul class="article__sources">
-            <li><a href="https://x.com/gdb/status/2067043685611790653">@gdb: software engineering is so different now</a></li>
-            <li><a href="https://x.com/t_wada/status/2064940910841131501">@t_wada: トークン使用料が高くなり続けると…</a></li>
-          </ul>
-        </article>
-      </section>
+  <article class="article">
+    <h3 class="article__headline">「ループエンジニアリング」と、持続可能な AI モブプロの模索</h3>
+    <div class="article__body">
+      <p>エージェント前提の開発スタイルを言語化する動きが続いている。@t_wada は「ループエンジニアリングはサイバネティクスの再発見だ」という記事を取り上げ、流行語化したこの概念の構造を 1 年以上前から言い当てていた、と評された投稿を共有。別の投稿では「AI 疲れ軽減のためにモブプロを始めたら抜群の成果と引き換えに人間が疲弊したので、持続可能なモブプロをガチで模索してみた」という実践事例を紹介し、AI モブプログラミングの「成果と疲労のトレードオフ」に注目が集まった。エージェントを使い倒す段階に入ったからこそ、人間側の運用設計が論点になってきている。</p>
+      <p>モデルの使い分けに関する現場感も。@yoshiko_pg は「Opus 4.8 はスキル追従こそ弱いが、コーディング強化のおかげで pptx を作るのは上手い。コーディングとビジュアル両方の強さが要る」と、用途ごとのモデルの当たり外れを実感ベースで共有している。</p>
+    </div>
+    <ul class="article__sources">
+      <li><a href="https://x.com/t_wada/status/2069695760464318816">@t_wada: ループエンジニアリングはサイバネティクスの再発見だ</a></li>
+      <li><a href="https://x.com/t_wada/status/2069629482328363329">@t_wada: 持続可能なモブプロをガチで模索してみた</a></li>
+      <li><a href="https://x.com/yoshiko_pg/status/2069696830020178067">@yoshiko_pg: Opus 4.8 はスキル追従は弱いが pptx は上手い</a></li>
+    </ul>
+  </article>
+</section>
     </main>
 
     <footer>
